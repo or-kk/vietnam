@@ -1,20 +1,22 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id(Config.Plugins.androidApplication)
+    id(Config.Plugins.kotlinAndroid)
+    id(Config.Plugins.hiltAndroid)
+    id(Config.Plugins.kotlinKapt)
 }
 
 android {
-    namespace = "io.orkk.vietnam"
-    compileSdk = 34
+    namespace = Config.AppConfig.applicationId
+    compileSdk = Config.AppConfig.compileSdk
 
     defaultConfig {
-        applicationId = "io.orkk.vietnam"
-        minSdk = 24
-        targetSdk = 34
+        applicationId = Config.AppConfig.applicationId
+        minSdk = Config.AppConfig.minSdk
+        targetSdk = Config.AppConfig.compileSdk
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = Config.AppConfig.testRunner
     }
 
     buildTypes {
@@ -23,23 +25,32 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Config.AppConfig.jvmTarget
+    }
+
+    buildFeatures {
+        dataBinding = true
     }
 }
 
 dependencies {
+    implementation(Dependencies.AndroidX.coreKtx)
+    implementation(Dependencies.AndroidX.appCompat)
+    implementation(Dependencies.AndroidX.material)
+    implementation(Dependencies.AndroidX.activity)
+    implementation(Dependencies.AndroidX.constraintlayout)
+    implementation(Dependencies.Dagger.hilt)
+    kapt(Dependencies.Dagger.hiltCompiler)
+    implementation(Dependencies.Others.timber)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(Dependencies.Test.junit)
+    androidTestImplementation(Dependencies.Test.androidXJunit)
+    androidTestImplementation(Dependencies.Test.androidXEspressoCore)
 }
