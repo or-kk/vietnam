@@ -49,6 +49,8 @@ dependencies {
     implementation(Dependencies.Dagger.hilt)
     kapt(Dependencies.Dagger.hiltCompiler)
     implementation(Dependencies.Others.timber)
+    implementation(Dependencies.AndroidX.Navigation.ui)
+    implementation(Dependencies.AndroidX.Navigation.fragment)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidXJunit)

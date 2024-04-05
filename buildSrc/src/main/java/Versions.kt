@@ -39,7 +39,7 @@ object Versions {
     }
 
     object Dagger {
-        const val hilt = "2.40.5"
+        const val hilt = "2.48"
     }
 
     object Test {
