@@ -35,6 +35,7 @@ object Versions {
 
         object Navigation {
             const val navigation = "2.5.3"
+            const val navigationFragment = "2.7.7"
         }
     }
 

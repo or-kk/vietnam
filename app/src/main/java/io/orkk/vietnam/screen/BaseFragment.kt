@@ -1,4 +1,4 @@
-package io.orkk.vietnam
+package io.orkk.vietnam.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,28 +12,31 @@ import androidx.fragment.app.Fragment
 abstract class BaseFragment<T : ViewDataBinding>(
     @LayoutRes val layoutId: Int
 ) : Fragment() {
-    private lateinit var binding: T
+    private var _dataBinding: T? = null
+    protected val dataBinding: T
+        get() = _dataBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-
-        return binding.root
+        _dataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.lifecycleOwner = this
         initView()
-        initViewModel()
         initListener()
+        initObserver()
     }
 
-    protected open fun initListener() {}
-
-    protected open fun initViewModel() {}
-
     protected open fun initView() {}
+    protected open fun initListener() {}
+    protected open fun initObserver() {}
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _dataBinding = null
+    }
 }

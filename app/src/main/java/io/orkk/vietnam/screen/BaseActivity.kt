@@ -1,7 +1,6 @@
-package io.orkk.vietnam
+package io.orkk.vietnam.screen
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -13,8 +12,8 @@ abstract class BaseActivity<T : ViewDataBinding>(
 
     private lateinit var binding: T
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutId)
 
         initView()

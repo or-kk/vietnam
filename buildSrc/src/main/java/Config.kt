@@ -19,7 +19,7 @@ object Config {
         const val hiltAndroid = "dagger.hilt.android.plugin"
         const val javaLibrary = "java-library"
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
-        const val safeArgs = "androidx.navigation.safeargs.kotlin"
+        const val navigationSafeArgs = "androidx.navigation.safeargs.kotlin"
         const val parcelize = "kotlin-parcelize"
     }
 }

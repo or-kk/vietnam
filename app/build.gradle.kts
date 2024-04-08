@@ -3,6 +3,7 @@ plugins {
     id(Config.Plugins.kotlinAndroid)
     id(Config.Plugins.hiltAndroid)
     id(Config.Plugins.kotlinKapt)
+    id(Config.Plugins.navigationSafeArgs)
 }
 
 android {
@@ -20,6 +21,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
@@ -36,6 +41,7 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         dataBinding = true
     }
 }
@@ -45,12 +51,15 @@ dependencies {
     implementation(Dependencies.AndroidX.appCompat)
     implementation(Dependencies.AndroidX.material)
     implementation(Dependencies.AndroidX.activity)
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation(Dependencies.AndroidX.constraintlayout)
     implementation(Dependencies.Dagger.hilt)
     kapt(Dependencies.Dagger.hiltCompiler)
     implementation(Dependencies.Others.timber)
     implementation(Dependencies.AndroidX.Navigation.ui)
     implementation(Dependencies.AndroidX.Navigation.fragment)
+    implementation(Dependencies.AndroidX.Navigation.navigationFragment)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidXJunit)

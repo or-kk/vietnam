@@ -6,7 +6,7 @@ object Dependencies {
         const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.GradlePlugin.android}"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Kotlin.kotlin}"
         const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.Dagger.hilt}"
-        const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.AndroidX.Navigation.navigation}"
+        const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.AndroidX.Navigation.navigation}"
     }
 
     object AndroidX {
@@ -32,6 +32,7 @@ object Dependencies {
         object Navigation {
             const val ui = "androidx.navigation:navigation-ui-ktx:${Versions.AndroidX.Navigation.navigation}"
             const val fragment = "androidx.navigation:navigation-fragment-ktx:${Versions.AndroidX.Navigation.navigation}"
+            const val navigationFragment = "androidx.navigation:navigation-fragment:${Versions.AndroidX.Navigation.navigationFragment}"
         }
     }
 

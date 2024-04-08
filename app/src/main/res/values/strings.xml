@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Vietnam</string>
+    <string name="intro_title">Intro</string>
+    <string name="sign_in_title">Sign in</string>
 </resources>
