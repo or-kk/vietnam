@@ -15,6 +15,8 @@ object Dependencies {
         const val activity = "androidx.activity:activity:${Versions.AndroidX.activity}"
         const val constraintlayout = "androidx.constraintlayout:constraintlayout:${Versions.AndroidX.constraintlayout}"
         const val material = "com.google.android.material:material:${Versions.AndroidX.material}"
+        const val activityKtx = "androidx.activity:activity-ktx:${Versions.AndroidX.activityKtx}"
+        const val fragmentKtx = "androidx.activity:activity-ktx:${Versions.AndroidX.fragmentKtx}"
         const val workManager = "androidx.work:work-runtime-ktx:${Versions.AndroidX.workManager}"
         const val startup = "androidx.startup:startup-runtime:${Versions.AndroidX.startup}"
         const val dataStore = "androidx.datastore:datastore-preferences:${Versions.AndroidX.dataStore}"
@@ -52,14 +54,15 @@ object Dependencies {
         const val hiltCompiler = "com.google.dagger:hilt-compiler:${Versions.Dagger.hilt}"
     }
 
+    object Others {
+        const val easyPermission = "pub.devrel:easypermissions:${Versions.Others.easyPermission}"
+        const val timber = "com.jakewharton.timber:timber:${Versions.Others.timber}"
+        const val toasty = "com.github.GrenderG:Toasty:${Versions.Others.toasty}"
+    }
+
     object Test {
         const val junit = "junit:junit:${Versions.Test.junit}"
         const val androidXJunit = "androidx.test.ext:junit:${Versions.Test.androidJunit}"
         const val androidXEspressoCore = "androidx.test.espresso:espresso-core:${Versions.Test.androidXEspressoCore}"
-    }
-
-    object Others {
-        const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-        const val toasty = "com.github.GrenderG:Toasty:${Versions.toasty}"
     }
 }

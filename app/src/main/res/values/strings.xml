@@ -2,4 +2,16 @@
     <string name="app_name">Vietnam</string>
     <string name="intro_title">Intro</string>
     <string name="sign_in_title">Sign in</string>
+
+    <string name="common_cancel">Cancel</string>
+    <string name="common_confirm">Confirm</string>
+
+    <string name="essential_permission_required_information_title">Grant required permissions</string>
+    <string name="essential_permission_required_information_rationale">Please grant the necessary permissions to use the app.</string>
+
+    <string name="storage_permission_required_information_title">Required storage permission information</string>
+    <string name="storage_permission_required_information_rationale">Storage permission settings are required.</string>
+
+    <string name="location_permission_required_information_title">Required location permission information</string>
+    <string name="location_permission_required_information_rationale">Location permission settings are required.</string>
 </resources>

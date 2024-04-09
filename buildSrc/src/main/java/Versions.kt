@@ -24,6 +24,8 @@ object Versions {
         const val workManager = "2.7.1"
         const val startup = "1.1.1"
         const val dataStore = "1.0.0"
+        const val activityKtx = "1.8.2"
+        const val fragmentKtx = "1.6.2"
 
         object Lifecycle {
             const val lifecycle = "2.5.1"
@@ -49,7 +51,10 @@ object Versions {
         const val androidXEspressoCore = "3.5.1"
     }
 
-    const val ktlint = "10.3.0"
-    const val timber = "5.0.1"
-    const val toasty = "1.5.2"
+    object Others {
+        const val easyPermission = "3.0.0"
+        const val ktlint = "10.3.0"
+        const val timber = "5.0.1"
+        const val toasty = "1.5.2"
+    }
 }
