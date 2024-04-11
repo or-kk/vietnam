@@ -61,6 +61,7 @@ dependencies {
     kapt(Dependencies.Dagger.hiltCompiler)
     implementation(Dependencies.Others.easyPermission)
     implementation(Dependencies.Others.timber)
+    implementation(Dependencies.Others.toasty)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidXJunit)

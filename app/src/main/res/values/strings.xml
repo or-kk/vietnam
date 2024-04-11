@@ -14,4 +14,6 @@
 
     <string name="location_permission_required_information_title">Required location permission information</string>
     <string name="location_permission_required_information_rationale">Location permission settings are required.</string>
+
+    <string name="tcp_connect_socket_success">Middle -> ConnectSocket success</string>
 </resources>

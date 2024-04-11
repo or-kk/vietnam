@@ -1,5 +1,6 @@
 package io.orkk.vietnam.screen.intro
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -7,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.ActivityIntroBinding
 import io.orkk.vietnam.screen.BaseActivity
+import io.orkk.vietnam.service.TcpService
 import io.orkk.vietnam.utils.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
 import io.orkk.vietnam.utils.PermissionUtils.Companion.getAllEssentialPermissions
 import io.orkk.vietnam.utils.PermissionUtils.Companion.getPermissionPopupResource
@@ -27,6 +29,14 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         navController?.setGraph(R.navigation.nav_intro, intent.extras)
         Timber.i("Intro Activity onCreate()")
         requestAllEssentialPermission()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        Intent(this, TcpService::class.java).run {
+            startService(this)
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

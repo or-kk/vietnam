@@ -48,7 +48,13 @@
 
         <activity
             android:name=".screen.main.MainActivity"
-            android:exported="true"></activity>
+            android:exported="false" />
+
+        <service
+            android:name=".service.TcpService"
+            android:enabled="true"
+            android:exported="false">
+        </service>
     </application>
 
 </manifest>
