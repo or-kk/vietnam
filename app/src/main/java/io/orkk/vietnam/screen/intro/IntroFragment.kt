@@ -8,8 +8,8 @@ import androidx.navigation.fragment.findNavController
 import io.orkk.vietnam.screen.BaseFragment
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.FragmentIntroBinding
-import io.orkk.vietnam.utils.EventObserver
-import io.orkk.vietnam.utils.safeNavigate
+import io.orkk.vietnam.utils.event.EventObserver
+import io.orkk.vietnam.utils.extension.safeNavigate
 
 
 class IntroFragment : BaseFragment<FragmentIntroBinding>(R.layout.fragment_intro) {

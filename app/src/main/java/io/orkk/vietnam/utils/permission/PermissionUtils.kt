@@ -1,4 +1,4 @@
-package io.orkk.vietnam.utils
+package io.orkk.vietnam.utils.permission
 
 import android.Manifest
 import android.os.Build

@@ -7,8 +7,8 @@ import androidx.navigation.fragment.findNavController
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.FragmentSignInBinding
 import io.orkk.vietnam.screen.BaseFragment
-import io.orkk.vietnam.utils.EventObserver
-import io.orkk.vietnam.utils.safeNavigate
+import io.orkk.vietnam.utils.event.EventObserver
+import io.orkk.vietnam.utils.extension.safeNavigate
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in){
 

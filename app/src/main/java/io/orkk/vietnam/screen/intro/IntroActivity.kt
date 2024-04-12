@@ -9,9 +9,10 @@ import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.ActivityIntroBinding
 import io.orkk.vietnam.screen.BaseActivity
 import io.orkk.vietnam.service.TcpService
-import io.orkk.vietnam.utils.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
-import io.orkk.vietnam.utils.PermissionUtils.Companion.getAllEssentialPermissions
-import io.orkk.vietnam.utils.PermissionUtils.Companion.getPermissionPopupResource
+import io.orkk.vietnam.service.TcpServiceConnection
+import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
+import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.getAllEssentialPermissions
+import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.getPermissionPopupResource
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -21,6 +22,8 @@ import timber.log.Timber
 @AndroidEntryPoint
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro), EasyPermissions.PermissionCallbacks {
 
+    lateinit var tcpServiceConnection: TcpServiceConnection
+
     private val navController: NavController?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()
 
@@ -29,14 +32,16 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         navController?.setGraph(R.navigation.nav_intro, intent.extras)
         Timber.i("Intro Activity onCreate()")
         requestAllEssentialPermission()
+
+        tcpServiceConnection = TcpServiceConnection()
     }
 
     override fun onResume() {
         super.onResume()
 
-        Intent(this, TcpService::class.java).run {
-            startService(this)
-        }
+        val tcpService = Intent(applicationContext, TcpService::class.java)
+        startService(tcpService)
+        bindService(tcpService, tcpServiceConnection, 0)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

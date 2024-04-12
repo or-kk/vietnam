@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.screen.BaseViewModel
-import io.orkk.vietnam.utils.Event
-import timber.log.Timber
+import io.orkk.vietnam.utils.event.Event
 import javax.inject.Inject
 
 @HiltViewModel

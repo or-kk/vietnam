@@ -1,4 +1,4 @@
-package io.orkk.vietnam.utils
+package io.orkk.vietnam.utils.event
 
 import androidx.lifecycle.Observer
 import timber.log.Timber
