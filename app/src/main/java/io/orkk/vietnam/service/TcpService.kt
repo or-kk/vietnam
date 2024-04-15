@@ -74,9 +74,11 @@ class TcpService : LifecycleService() {
             super.run()
             try {
                 socketConnect("202.68.227.57", 20406)
-                receiveThreadStart()
 
-                isConnect = true
+                if (socket.isConnected) {
+                    isConnect = true
+                    receiveThreadStart()
+                }
             } catch (e: Exception) {
                 Timber.e("ConnectThread -> exception -> ${e.message}")
             }
@@ -146,7 +148,7 @@ class TcpService : LifecycleService() {
                     Timber.e("ReceiveThread -> Exception -> ${e.message}")
                     isConnectError = true
                 } catch (e: InterruptedException) {
-                    Timber.e("ReceiveThread -> Exception -> ${e.message}")
+                    Timber.e("ReceiveThread -> InterruptedException -> ${e.message}")
                     isConnectError = true
                 }
             }

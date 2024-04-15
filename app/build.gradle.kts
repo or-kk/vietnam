@@ -4,6 +4,7 @@ plugins {
     id(Config.Plugins.hiltAndroid)
     id(Config.Plugins.kotlinKapt)
     id(Config.Plugins.navigationSafeArgs)
+    id(Config.Plugins.parcelize)
 }
 
 android {

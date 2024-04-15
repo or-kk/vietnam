@@ -23,7 +23,7 @@ object PacketManager {
                 val bBase2 = DataUtils.convertIntToByte(TXPackets.COMMAND_SIGN_IN)
 
                 val bData1 = DataUtils.convertDoubleToByteArray(signInItem.menuVer)
-                val bData2 = DataUtils.convertIntToByteArray(signInItem.caddyNumber)
+                val bData2 = DataUtils.convertIntToByteArray(signInItem.id)
                 val bData3 = ByteArray(1)
                 bData3[0] = signInItem.cartNumber
                 val bData4 = ByteArray(1)

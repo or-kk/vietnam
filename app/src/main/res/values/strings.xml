@@ -16,4 +16,12 @@
     <string name="location_permission_required_information_rationale">Location permission settings are required.</string>
 
     <string name="tcp_connect_socket_success">Middle -> ConnectSocket success</string>
+
+    <string name="sign_in">Login</string>
+    <string name="sign_in_id_hint">Enter your ID</string>
+    <string name="sign_in_password_hint">Enter your password</string>
+
+    <string name="sign_in_id_empty_error">ID is blank, please enter your ID</string>
+    <string name="sign_in_id_common_error">Please check your ID, The ID cannot be less than 0 or more than 256.</string>
+    <string name="sign_in_password_empty_error">ID is blank, please enter your ID</string>
 </resources>

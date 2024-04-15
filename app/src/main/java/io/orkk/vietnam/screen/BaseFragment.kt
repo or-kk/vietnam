@@ -27,13 +27,23 @@ abstract class BaseFragment<T : ViewDataBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        initListener()
         initObserver()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initListener()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        removeListener()
     }
 
     protected open fun initView() {}
     protected open fun initListener() {}
     protected open fun initObserver() {}
+    protected open fun removeListener() {}
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,6 +1,8 @@
 package io.orkk.vietnam.service
 
-class SendPacketQueue {
+import javax.inject.Inject
+
+class SendPacketQueue @Inject constructor() {
     private var commandArrayDeque = ArrayDeque<Int>(MAX_PACKET_SIZE)
     private var dataArrayDeque = ArrayDeque<Any>(MAX_PACKET_SIZE)
 
