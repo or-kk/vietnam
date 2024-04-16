@@ -12,11 +12,11 @@ class TcpServiceConnection : ServiceConnection {
         val binder = service as TcpService.TcpServiceBinder
         tcpService = binder.service
         isBound = true
-        Timber.e("TcpServiceConnection -> onServiceConnected")
+        Timber.i("TcpServiceConnection -> onServiceConnected")
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
         isBound = false
-        Timber.e("TcpServiceConnection -> onServiceDisconnected")
+        Timber.i("TcpServiceConnection -> onServiceDisconnected")
     }
 }

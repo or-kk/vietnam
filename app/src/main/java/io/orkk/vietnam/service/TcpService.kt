@@ -16,7 +16,9 @@ import io.orkk.vietnam.utils.packet.RequestPacket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import java.io.DataInputStream
 import java.io.DataOutputStream
@@ -40,17 +42,15 @@ class TcpService : LifecycleService() {
     private var pingTime: Long = System.currentTimeMillis()
     private var isReceivePacket: Boolean = false
 
-    private var isConnect: Boolean = false
-    private var isConnectError: Boolean = false
+    private var isConnectSocket: Boolean = false
+    private var isConnectSocketError: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
 
         sendPacketQueue = SendPacketQueue()
 
-        ConnectThread().apply {
-            start()
-        }
+        ConnectSocketThread().start()
     }
 
     override fun onDestroy() {
@@ -69,15 +69,28 @@ class TcpService : LifecycleService() {
             get() = this@TcpService
     }
 
-    inner class ConnectThread : Thread() {
+    inner class ConnectSocketThread : Thread() {
         override fun run() {
             super.run()
             try {
-                socketConnect("202.68.227.57", 20406)
+                connectSocket("202.68.227.57", 20406)
 
-                if (socket.isConnected) {
-                    isConnect = true
-                    receiveThreadStart()
+                runBlocking {
+                    Timber.i("ConnectThread -> runBlocking")
+
+                    connectScope.launch {
+                        while (!isConnectSocket) {
+                            if (::socket.isInitialized) {
+                                Timber.i("ConnectThread -> socket isInitialized")
+                                if (socket.isConnected) {
+                                    Timber.i("ConnectThread -> socket isConnected")
+                                    isConnectSocket = true
+                                    receiveThreadStart()
+                                }
+                            }
+                        }
+                        delay(CONNECT_SOCKET_DELAY_TIME)
+                    }
                 }
             } catch (e: Exception) {
                 Timber.e("ConnectThread -> exception -> ${e.message}")
@@ -85,30 +98,68 @@ class TcpService : LifecycleService() {
         }
     }
 
-    private fun receiveThreadStart() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            ReceiveThread().start()
+    inner class ReConnectSocketThread : Thread() {
+        override fun run() {
+            super.run()
+            try {
+                connectSocket("202.68.227.57", 20406)
+
+                runBlocking {
+                    Timber.i("ConnectThread -> runBlocking")
+
+                    connectScope.launch {
+                        while (!isConnectSocket) {
+                            if (::socket.isInitialized) {
+                                Timber.i("ReConnectSocketThread -> socket isInitialized")
+                                if (socket.isConnected) {
+                                    Timber.i("ReConnectSocketThread -> socket isConnected")
+                                    isConnectSocket = true
+                                    receiveThreadStart()
+                                }
+                            }
+                        }
+                        delay(CONNECT_SOCKET_DELAY_TIME)
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e("ReConnectSocketThread -> exception -> ${e.message}")
+            }
         }
     }
 
-    inner class ReceiveThread : Thread() {
+    private fun receiveThreadStart() {
+        Timber.i("receiveThreadStart -> launch")
+        lifecycleScope.launch(Dispatchers.IO) {
+            ReceiveSocketThread().start()
+        }
+    }
+
+    inner class ReceiveSocketThread : Thread() {
         override fun run() {
             super.run()
-            Timber.i("ReceiveThread -> Start -> Thread id : ${this.id}")
+            Timber.i("ReceiveSocketThread -> Start -> Thread id : ${this.id}")
 
             while (!this.isInterrupted) {
                 try {
-                    if (isConnect) {
-
+                    if (isConnectSocket) {
                         try {
                             var receiveCommand: Int = 0
                             var receiveLength: Int = 0
                             var readAvailableByte = receiveSocket.available()
+
                             sendOffsetTime = System.currentTimeMillis()
+
+                            Timber.i(
+                                "ReceiveSocketThread -> doing -> " +
+                                        "sendOffsetTime -> $sendOffsetTime " +
+                                        "isReceivePacket -> $isReceivePacket " +
+                                        "readAvailableByte -> $readAvailableByte"
+                            )
 
                             while (readAvailableByte > 0 || isReceivePacket) {
 
                                 if (sendOffsetTime != 0L && (System.currentTimeMillis() - sendOffsetTime) > SEND_PACKET_TIME) {
+                                    Timber.i("ReceiveSocketThread -> SendPacket() 1")
                                     sendPacket()
                                 }
 
@@ -135,27 +186,28 @@ class TcpService : LifecycleService() {
                                 Thread.sleep(10)
                             }
                         } catch (e: IOException) {
-                            Timber.e("ReceiveThread -> IOException -> ${e.message}")
+                            Timber.e("ReceiveSocketThread -> IOException -> ${e.message}")
                         }
 
                         if (sendOffsetTime != 0L && (System.currentTimeMillis() - sendOffsetTime) > SEND_PACKET_TIME) {
+                            Timber.i("ReceiveSocketThread -> SendPacket() 2")
                             sendPacket()
                         }
 
                         Thread.sleep(200)
                     }
                 } catch (e: Exception) {
-                    Timber.e("ReceiveThread -> Exception -> ${e.message}")
-                    isConnectError = true
+                    Timber.e("ReceiveSocketThread -> Exception -> ${e.message}")
+                    isConnectSocketError = true
                 } catch (e: InterruptedException) {
-                    Timber.e("ReceiveThread -> InterruptedException -> ${e.message}")
-                    isConnectError = true
+                    Timber.e("ReceiveSocketThread -> InterruptedException -> ${e.message}")
+                    isConnectSocketError = true
                 }
             }
         }
     }
 
-    private fun socketConnect(ip: String, port: Int) {
+    private fun connectSocket(ip: String, port: Int) {
         Timber.i("TcpService Socket info IP -> $ip  PORT -> $port")
         connectScope.launch {
             InetSocketAddress(ip, port).let {
@@ -176,7 +228,7 @@ class TcpService : LifecycleService() {
     private fun sendPacket() {
         if (sendPacketQueue.check()) {
             sendPacketQueue.deQueue().also { command ->
-                if (command != 0) sendData(command, sendPacketQueue.packetData)
+                if (command != 0) sendSocketWrite(command, sendPacketQueue.packetData)
             }
         } else {
             if (pingTime != 0L && (System.currentTimeMillis() - pingTime) > SEND_PING_PACKET_TIME) {
@@ -201,7 +253,8 @@ class TcpService : LifecycleService() {
                     }
                 }
 
-                Timber.e(">>> PING >> COMMAND_REQ_PACKET >> indexOfPacketStart : ${RequestPacket.indexOfPacketStart}, indexOfPacketEnd : ${RequestPacket.indexOfPacketEnd}"
+                Timber.e(
+                    ">>> PING >> COMMAND_REQ_PACKET >> indexOfPacketStart : ${RequestPacket.indexOfPacketStart}, indexOfPacketEnd : ${RequestPacket.indexOfPacketEnd}"
                 )
 
                 PacketManager.makePacket(RXPackets.COMMAND_REQ_PACKET, RequestPacket).apply {
@@ -213,18 +266,19 @@ class TcpService : LifecycleService() {
         }
     }
 
-    private fun sendData(command: Int, obj: Any) {
+    private fun sendSocketWrite(command: Int, obj: Any) {
         try {
             if (command != 0 && obj != null && sendSocket != null) {
                 val sendPacket: SendPacket = obj as SendPacket
+                Timber.i("sendSocketWrite -> command -> $command")
 
                 sendSocket.write(sendPacket.sendPacket)
                 sendSocket.flush()
             } else {
-                Timber.d("sendData -> sendData -> Command is null")
+                Timber.d("sendSocketWrite -> sendData -> Command is null")
             }
         } catch (e: Exception) {
-            Timber.e("sendData -> sendData -> Exception -> ${e.message}")
+            Timber.e("sendSocketWrite -> sendData -> Exception -> ${e.message}")
         }
     }
 

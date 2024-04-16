@@ -1,5 +1,6 @@
 package io.orkk.vietnam.service
 
+import timber.log.Timber
 import javax.inject.Inject
 
 class SendPacketQueue @Inject constructor() {
@@ -19,6 +20,7 @@ class SendPacketQueue @Inject constructor() {
         if (objects != null) {
             dataArrayDeque.add(objects)
         }
+        Timber.i("SendPacketQueue -> enQueue -> commandArrayDeque -> ${commandArrayDeque.first()}")
     }
 
     fun deQueue(): Int {

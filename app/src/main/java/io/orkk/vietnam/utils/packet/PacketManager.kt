@@ -5,6 +5,7 @@ import io.orkk.vietnam.model.signin.SignInItem
 import io.orkk.vietnam.model.tcpip.TXPackets
 import io.orkk.vietnam.service.SendPacket
 import io.orkk.vietnam.utils.converter.DataUtils
+import timber.log.Timber
 
 object PacketManager {
     var indexPacketSend = 0
@@ -15,6 +16,7 @@ object PacketManager {
     var sendPackets: ArrayList<SendPacket> = ArrayList<SendPacket>()
 
     fun makePacket(command: Int, obj: Any): SendPacket {
+        Timber.i("PacketManager -> makePacket -> command -> $command")
         when (command) {
             TXPackets.COMMAND_SIGN_IN -> {
                 val signInItem = obj as SignInItem

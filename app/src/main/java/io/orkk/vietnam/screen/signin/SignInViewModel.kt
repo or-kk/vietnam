@@ -53,7 +53,6 @@ class SignInViewModel @Inject constructor(
 
             }
         }
-
     }
 
     fun checkIdValidation(id: String) {
