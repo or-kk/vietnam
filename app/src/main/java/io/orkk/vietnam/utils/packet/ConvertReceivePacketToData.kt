@@ -29,7 +29,7 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
                 val nSPacket: Int = DataUtils.convertByteToInt(arSPacket, 0)
                 val nEPacket: Int = DataUtils.convertByteToInt(arEPacket, 0)
 
-                Timber.d("KoProcessReceivePacket >> processPacket() >>  CMD_REQ_PACKET >> nSPacket : $nSPacket nEPacket : $nEPacket")
+                Timber.d("ProcessReceivePacket >> processPacket() >>  CMD_REQ_PACKET >> nSPacket : $nSPacket nEPacket : $nEPacket")
 
                 val cntSPacket: Int = PacketManager.sendPackets.size
 
