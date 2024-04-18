@@ -48,6 +48,28 @@ object PacketManager {
                 System.arraycopy(bData, 0, bPacket, bBase1.size + bBase2.size + bBase3.size, bData.size)
                 return SendPacket(sendIndex = -1, sendCommand = command, sendPacket = bPacket)
             }
+            TXPackets.COMMAND_REQ_PACKET -> {
+                val bBase1 = DataUtils.convertIntToByte(Constants.COMMAND_BASE_VERSION)
+                val bBase2 = DataUtils.convertIntToByte(TXPackets.COMMAND_REQ_PACKET)
+
+                val bData1 = DataUtils.convertIntToByteArray(RequestPacket.indexOfPacketStart)
+                val bData2 = DataUtils.convertIntToByteArray(RequestPacket.indexOfPacketEnd)
+
+                val bData = ByteArray(bData1.size + bData2.size)
+
+                System.arraycopy(bData1, 0, bData, 0, bData1.size)
+                System.arraycopy(bData2, 0, bData, bData1.size, bData2.size)
+
+                val bBase3 = DataUtils.convertShortToByteArray(bData.size.toShort())
+
+                val bPacket = ByteArray(bBase1.size + bBase2.size + bBase3.size + bData.size)
+                System.arraycopy(bBase1, 0, bPacket, 0, bBase1.size)
+                System.arraycopy(bBase2, 0, bPacket, bBase1.size, bBase2.size)
+                System.arraycopy(bBase3, 0, bPacket, bBase1.size + bBase2.size, bBase3.size)
+                System.arraycopy(bData, 0, bPacket, bBase1.size + bBase2.size + bBase3.size, bData.size)
+
+                return SendPacket(sendIndex = -1, sendCommand = command, sendPacket = bPacket)
+            }
 
             else -> return SendPacket(sendIndex = -1, sendCommand = command, sendPacket = ByteArray(0))
         }

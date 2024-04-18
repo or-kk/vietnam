@@ -63,7 +63,9 @@ class TcpService : LifecycleService() {
     }
 
     private fun initTcpService() {
-        sendPacketQueue = SendPacketQueue()
+        sendPacketQueue = SendPacketQueue().apply {
+            initQueue()
+        }
         convertReceivePacketToData = ConvertReceivePacketToData(sendPacketQueue)
         connectCheckHandler = ConnectCheckHandler()
     }
@@ -330,6 +332,7 @@ class TcpService : LifecycleService() {
     private fun sendPacket() {
         if (sendPacketQueue.check()) {
             sendPacketQueue.deQueue().also { command ->
+                Timber.e(" command $command")
                 if (command != 0) sendSocketWrite(command, sendPacketQueue.packetData)
             }
         } else {
