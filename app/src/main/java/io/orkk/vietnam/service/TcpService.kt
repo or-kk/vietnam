@@ -10,12 +10,15 @@ import android.os.Message
 import android.widget.Toast
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import io.orkk.vietnam.R
+import io.orkk.vietnam.model.signin.SignInItem
 import io.orkk.vietnam.model.tcpip.ReceivePacket
 import io.orkk.vietnam.utils.packet.ConvertReceivePacketToData
 import io.orkk.vietnam.utils.packet.PacketManager
 import io.orkk.vietnam.model.tcpip.RXPackets
+import io.orkk.vietnam.model.tcpip.TXPackets
 import io.orkk.vietnam.utils.packet.RequestPacket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,8 +33,10 @@ import java.io.IOException
 import java.net.ConnectException
 import java.net.InetSocketAddress
 import java.net.Socket
+import javax.inject.Inject
 import kotlin.Exception
 
+@AndroidEntryPoint
 class TcpService : LifecycleService() {
 
     private val tcpServiceBinder: IBinder = TcpServiceBinder()
@@ -40,7 +45,7 @@ class TcpService : LifecycleService() {
     private lateinit var socket: Socket
     private lateinit var sendSocket: DataOutputStream
     private lateinit var receiveSocket: DataInputStream
-    private lateinit var sendPacketQueue: SendPacketQueue
+    @Inject lateinit var sendPacketQueue: SendPacketQueue
     private lateinit var convertReceivePacketToData: ConvertReceivePacketToData
     private lateinit var connectCheckHandler: Handler
     private lateinit var connectSocketThread: ConnectSocketThread
@@ -113,8 +118,6 @@ class TcpService : LifecycleService() {
     }
 
     private fun startReconnectSocketThread() {
-//        interruptReconnectSocketThread()
-//        reConnectSocketThread.interrupt()
         reConnectSocketThread.start()
     }
 
@@ -137,6 +140,14 @@ class TcpService : LifecycleService() {
         lifecycleScope.launch(Dispatchers.IO) {
             receiveSocketThread.start()
         }
+
+        // for sign in test
+        lifecycleScope.launch(Dispatchers.IO) {
+            delay(1000L)
+            PacketManager.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
+                sendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
+            }
+        }
     }
 
     private fun restartSocketThread(message: String) {
@@ -145,6 +156,7 @@ class TcpService : LifecycleService() {
         connectCheckHandler.apply {
             if (!this.hasMessages(HANDLER_MESSAGE_TRY_RECONNECT) && isTryRestartConnectSocket) {
                 this.sendEmptyMessageDelayed(HANDLER_MESSAGE_TRY_RECONNECT, RECONNECT_TIME)
+                isConnectSocket = false
                 isTryRestartConnectSocket = false
             }
         }
@@ -202,6 +214,7 @@ class TcpService : LifecycleService() {
                                 if (socket.isConnected) {
                                     Timber.i("ConnectSocketThread -> socket isConnected")
                                     isConnectSocket = true
+                                    isConnectSocketError = false
                                     startReceiveThreadStart()
                                 }
                             }
@@ -246,15 +259,10 @@ class TcpService : LifecycleService() {
             try {
 
                 while (!isConnectSocket) {
-                    runBlocking {
-                        connectSocket("202.68.227.57", 20406)
-                        delay(CONNECT_SOCKET_DELAY_TIME)
-                    }
-                }
-
-                runBlocking {
                     connectScope.launch {
-                        while (!isConnectSocket) {
+                        runBlocking {
+                            connectSocket("202.68.227.57", 20406)
+
                             if (::socket.isInitialized) {
                                 Timber.i("ReConnectSocketThread -> socket isInitialized")
                                 if (socket.isConnected) {
@@ -262,11 +270,11 @@ class TcpService : LifecycleService() {
                                     isConnectSocket = true
                                     isReconnect = false
                                     isConnectSocketError = false
-                                    startReceiveThreadStart()
+//                                startReceiveThreadStart()
                                 }
                             }
+                            delay(CONNECT_SOCKET_DELAY_TIME)
                         }
-                        delay(CONNECT_SOCKET_DELAY_TIME)
                     }
                 }
             } catch (e: Exception) {
@@ -312,8 +320,8 @@ class TcpService : LifecycleService() {
                 try {
                     if (isConnectSocket) {
                         try {
-                            var receiveCommand: Int = 0
-                            var receiveLength: Int = 0
+                            var receiveCommand = 0
+                            var receiveLength = 0
                             var readAvailableByte = receiveSocket.available()
 
                             while (readAvailableByte > 0 || isReceivePacket) {

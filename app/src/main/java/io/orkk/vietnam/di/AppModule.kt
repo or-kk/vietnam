@@ -20,6 +20,11 @@ class AppModule {
     }
 
     @Provides
+    fun provideSendPacketQueue() : SendPacketQueue {
+        return SendPacketQueue()
+    }
+
+    @Provides
     @Singleton
     fun provideUserRepository(
         packetManager: PacketManager,

@@ -13,7 +13,27 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
     fun convertPacket(receivePacket: ReceivePacket) {
         receiveTime = System.currentTimeMillis()
 
+        Timber.e("ConvertReceivePacketToData -> ${receivePacket.command}")
         when(receivePacket.command) {
+            RXPackets.COMMAND_SIGN_IN_FAIL_01 -> {
+                Timber.e("COMMAND_SIGN_IN_FAIL_01")
+            }
+
+            RXPackets.COMMAND_SIGN_IN_FAIL_02 -> {
+                Timber.e("COMMAND_SIGN_IN_FAIL_02")
+            }
+
+            RXPackets.COMMAND_SIGN_IN_FAIL_03 -> {
+                Timber.e("COMMAND_SIGN_IN_FAIL_03")
+            }
+
+            RXPackets.COMMAND_SIGN_IN_FAIL_04 -> {
+                Timber.e("COMMAND_SIGN_IN_FAIL_04")
+            }
+
+            RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
+                Timber.e("COMMAND_SIGN_IN_FAIL_05")
+            }
             RXPackets.COMMAND_REQ_PACKET -> {
                 val arSPacket = ByteArray(4)
                 val arEPacket = ByteArray(4)
