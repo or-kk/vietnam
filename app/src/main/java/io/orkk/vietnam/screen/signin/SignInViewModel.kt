@@ -6,13 +6,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.R
+import io.orkk.vietnam.data.local.PreferenceRepository
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.screen.BaseViewModel
 import io.orkk.vietnam.utils.EditTextState
 import io.orkk.vietnam.utils.event.Event
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val preferenceRepository: PreferenceRepository,
 ) : BaseViewModel() {
 
     private val _navigateToMain = MutableLiveData<Event<Unit>>()
@@ -42,11 +47,18 @@ class SignInViewModel @Inject constructor(
         idState == EditTextState.Success && passwordState == EditTextState.Success
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val isSavePassword: Flow<Boolean> = preferenceRepository.isSavePassword
+
+    fun setSavePassword(isChecked: Boolean) = viewModelScope.launch {
+        preferenceRepository.setIsSavePassword(isChecked)
+        preferenceRepository.setSavePassword(password.value)
+    }
+
     fun navigateToMain() {
         _navigateToMain.value = Event(Unit)
     }
 
-    fun signIn() {
+    fun signInWithMiddleware() {
         viewModelScope.launch {
             userRepository.signInWithMiddleware(id.value, password.value).onEach {
             }.collect {

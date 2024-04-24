@@ -55,6 +55,7 @@ dependencies {
     implementation(Dependencies.AndroidX.activityKtx)
     implementation(Dependencies.AndroidX.fragmentKtx)
     implementation(Dependencies.AndroidX.constraintlayout)
+    implementation(Dependencies.AndroidX.dataStore)
     implementation(Dependencies.AndroidX.Navigation.ui)
     implementation(Dependencies.AndroidX.Navigation.fragment)
     implementation(Dependencies.AndroidX.Navigation.navigationFragment)
