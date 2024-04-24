@@ -56,7 +56,7 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
                 if (nEPacket >= nEPacket) {
                     for (i in cntSPacket - 1 downTo 0) {
                         if (PacketManager.sendPackets[i].sendIndex in nSPacket..nEPacket) {
-                            sendPacketQueue.enQueue(PacketManager.sendPackets[i].sendCommand, PacketManager.sendPackets[i])
+                            SendPacketQueue.enQueue(PacketManager.sendPackets[i].sendCommand, PacketManager.sendPackets[i])
                             PacketManager.sendPackets.removeAt(i)
                         }
                     }

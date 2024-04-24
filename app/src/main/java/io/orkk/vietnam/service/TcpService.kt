@@ -87,9 +87,7 @@ class TcpService : LifecycleService() {
     }
 
     private fun initTcpService() {
-        sendPacketQueue = SendPacketQueue().apply {
-            initQueue()
-        }
+        SendPacketQueue.initQueue()
         convertReceivePacketToData = ConvertReceivePacketToData(sendPacketQueue)
         connectCheckHandler = ConnectCheckHandler()
         connectSocketThread = ConnectSocketThread()
@@ -142,12 +140,12 @@ class TcpService : LifecycleService() {
         }
 
         // for sign in test
-        lifecycleScope.launch(Dispatchers.IO) {
-            delay(1000L)
-            PacketManager.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
-                sendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            delay(1000L)
+//            PacketManager.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
+//                sendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
+//            }
+//        }
     }
 
     private fun restartSocketThread(message: String) {
@@ -375,10 +373,10 @@ class TcpService : LifecycleService() {
     }
 
     private fun sendPacket() {
-        if (sendPacketQueue.check()) {
-            sendPacketQueue.deQueue().also { command ->
-                Timber.e("sendPacket -> $command")
-                if (command != 0) writeSendSocket(command, sendPacketQueue.packetData)
+        if (SendPacketQueue.check()) {
+            SendPacketQueue.deQueue().also { command ->
+                Timber.e("sendPacket deQueue -> $command")
+                if (command != 0) writeSendSocket(command, SendPacketQueue.packetData)
             }
         } else {
             if (pingTime != 0L && (System.currentTimeMillis() - pingTime) > SEND_PING_PACKET_TIME) {
@@ -405,7 +403,7 @@ class TcpService : LifecycleService() {
                 Timber.e("sendPacket -> COMMAND_REQ_PACKET -> indexOfPacketStart : ${RequestPacket.indexOfPacketStart} indexOfPacketEnd : ${RequestPacket.indexOfPacketEnd}")
 
                 PacketManager.makePacket(RXPackets.COMMAND_REQ_PACKET, RequestPacket).apply {
-                    sendPacketQueue.enQueue(RXPackets.COMMAND_REQ_PACKET, this)
+                    SendPacketQueue.enQueue(RXPackets.COMMAND_REQ_PACKET, this)
                 }
 
                 pingTime = System.currentTimeMillis()

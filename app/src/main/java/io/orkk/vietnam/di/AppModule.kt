@@ -27,9 +27,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(
-        packetManager: PacketManager,
-        sendPacketQueue: SendPacketQueue
+        packetManager: PacketManager
     ): UserRepository {
-        return UserRepositoryImpl(packetManager, sendPacketQueue)
+        return UserRepositoryImpl(packetManager)
     }
 }
