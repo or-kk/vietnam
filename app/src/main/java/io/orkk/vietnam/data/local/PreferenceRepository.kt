@@ -7,6 +7,6 @@ interface PreferenceRepository {
     val isSavePassword: Flow<Boolean>
     suspend fun setIsSavePassword(isSaved: Boolean)
 
-    val password: Flow<String?>
+    val savedPassword: Flow<String?>
     suspend fun setSavePassword(password: String?)
 }

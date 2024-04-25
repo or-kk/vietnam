@@ -11,15 +11,15 @@ import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.screen.BaseViewModel
 import io.orkk.vietnam.utils.EditTextState
 import io.orkk.vietnam.utils.event.Event
+import io.orkk.vietnam.utils.packet.ConvertReceivePacketToData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -38,8 +38,16 @@ class SignInViewModel @Inject constructor(
 
     val idEditTextState: StateFlow<EditTextState> = savedStateHandle.getStateFlow<EditTextState>(KEY_OF_ID_EDIT_TEXT_STATE, EditTextState.Loading)
 
-    val password: StateFlow<String?>
+    private val inputPassword: StateFlow<String?>
         get() = savedStateHandle.getStateFlow<String?>(KEY_OF_PASSWORD, null)
+
+    private val savedPassword: StateFlow<String?> = preferenceRepository.savedPassword.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), ""
+    )
+
+    val password = inputPassword.combine(savedPassword) { input, saved ->
+        saved ?: input
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
 
     val passwordEditTextState: StateFlow<EditTextState> = savedStateHandle.getStateFlow<EditTextState>(KEY_OF_PASSWORD_EDIT_TEXT_STATE, EditTextState.Loading)
 
@@ -47,11 +55,15 @@ class SignInViewModel @Inject constructor(
         idState == EditTextState.Success && passwordState == EditTextState.Success
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    val isSavePassword: Flow<Boolean> = preferenceRepository.isSavePassword
+    val isSavePassword: StateFlow<Boolean> = preferenceRepository.isSavePassword.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), false
+    )
+
+    val dataFlow: Flow<Any> = ConvertReceivePacketToData.PacketChannel.receive()
 
     fun setSavePassword(isChecked: Boolean) = viewModelScope.launch {
         preferenceRepository.setIsSavePassword(isChecked)
-        preferenceRepository.setSavePassword(password.value)
+        preferenceRepository.setSavePassword(inputPassword.value)
     }
 
     fun navigateToMain() {
@@ -60,7 +72,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithMiddleware() {
         viewModelScope.launch {
-            userRepository.signInWithMiddleware(id.value, password.value).onEach {
+            userRepository.signInWithMiddleware(id.value, inputPassword.value).onEach {
             }.collect {
 
             }

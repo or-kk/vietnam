@@ -4,6 +4,13 @@ import io.orkk.vietnam.model.tcpip.RXPackets
 import io.orkk.vietnam.model.tcpip.ReceivePacket
 import io.orkk.vietnam.service.SendPacketQueue
 import io.orkk.vietnam.utils.converter.DataUtils
+import kotlinx.coroutines.channels.BroadcastChannel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
+import kotlinx.coroutines.channels.SendChannel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 
 class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
@@ -17,14 +24,23 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
         when(receivePacket.command) {
             RXPackets.COMMAND_SIGN_IN_FAIL_01 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_01")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_01)
+                }
             }
 
             RXPackets.COMMAND_SIGN_IN_FAIL_02 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_02")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_02)
+                }
             }
 
             RXPackets.COMMAND_SIGN_IN_FAIL_03 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_03")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_03)
+                }
             }
 
             RXPackets.COMMAND_SIGN_IN_FAIL_04 -> {
@@ -34,6 +50,7 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
             RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_05")
             }
+
             RXPackets.COMMAND_REQ_PACKET -> {
                 val arSPacket = ByteArray(4)
                 val arEPacket = ByteArray(4)
@@ -69,5 +86,15 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
                 }
             }
         }
+    }
+
+    object PacketChannel {
+        private val channel = Channel<Any>(BUFFERED)
+
+        suspend fun sendChannel(data: Any) {
+            channel.send(data)
+        }
+
+        fun receive(): Flow<Any> = channel.receiveAsFlow()
     }
 }

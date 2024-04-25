@@ -84,6 +84,10 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     }
                 }
             }
+
+            signInViewModel.dataFlow.collect { data ->
+                Timber.w("data is $data")
+            }
         }
 
         signInViewModel.navigateToMain.observe(viewLifecycleOwner, EventObserver {

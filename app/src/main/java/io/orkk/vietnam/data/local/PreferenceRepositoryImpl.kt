@@ -21,11 +21,13 @@ open class PreferenceRepositoryImpl @Inject constructor(
     override val isSavePassword: Flow<Boolean>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_IS_SAVE_PASSWORD] ?: false }
 
-    override val password: Flow<String?>
+    override val savedPassword: Flow<String?>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_PASSWORD] }
 
     override suspend fun setSavePassword(password: String?) {
-        prefDatastore.edit { it[PREFERENCES_KEY_OF_PASSWORD] = password!! }
+        if (password != null) {
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_PASSWORD] = password }
+        }
     }
 
     companion object {
