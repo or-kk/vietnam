@@ -45,10 +45,16 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
 
             RXPackets.COMMAND_SIGN_IN_FAIL_04 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_04")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_04)
+                }
             }
 
             RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_05")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_05)
+                }
             }
 
             RXPackets.COMMAND_REQ_PACKET -> {

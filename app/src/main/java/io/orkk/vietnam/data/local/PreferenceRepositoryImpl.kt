@@ -14,6 +14,16 @@ import javax.inject.Singleton
 open class PreferenceRepositoryImpl @Inject constructor(
     private val prefDatastore: DataStore<Preferences>
 ) : PreferenceRepository {
+
+    override val savedId: Flow<String?>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_ID] ?: ""}
+
+    override suspend fun setSaveId(id: String?) {
+        if (id != null) {
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_ID] = id }
+        }
+    }
+
     override suspend fun setIsSavePassword(isSaved: Boolean) {
         prefDatastore.edit { it[PREFERENCES_KEY_OF_IS_SAVE_PASSWORD] = isSaved }
     }
@@ -33,6 +43,7 @@ open class PreferenceRepositoryImpl @Inject constructor(
     companion object {
         const val DATA_STORE_NAME = "PREFERENCE_DATA"
 
+        val PREFERENCES_KEY_OF_ID = stringPreferencesKey("preference_id")
         val PREFERENCES_KEY_OF_IS_SAVE_PASSWORD = booleanPreferencesKey("preference_is_save_password")
         val PREFERENCES_KEY_OF_PASSWORD = stringPreferencesKey("preference_password")
     }

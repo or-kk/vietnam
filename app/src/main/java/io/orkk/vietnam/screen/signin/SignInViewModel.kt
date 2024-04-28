@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,8 +32,16 @@ class SignInViewModel @Inject constructor(
     val navigateToMain: LiveData<Event<Unit>>
         get() = _navigateToMain
 
-    val id: StateFlow<String?>
+    private val inputId: StateFlow<String?>
         get() = savedStateHandle.getStateFlow<String?>(KEY_OF_ID, null)
+
+    private val savedId: StateFlow<String?> = preferenceRepository.savedId.stateIn(
+        viewModelScope, SharingStarted.WhileSubscribed(5000), ""
+    )
+
+    val id = inputId.combine(savedId) { input, saved ->
+        saved ?: input
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
 
     val idEditTextState: StateFlow<EditTextState> = savedStateHandle.getStateFlow<EditTextState>(KEY_OF_ID_EDIT_TEXT_STATE, EditTextState.Loading)
 
@@ -72,7 +79,7 @@ class SignInViewModel @Inject constructor(
 
     fun signInWithMiddleware() {
         viewModelScope.launch {
-            userRepository.signInWithMiddleware(id.value, inputPassword.value).onEach {
+            userRepository.signInWithMiddleware(inputId.value, inputPassword.value).onEach {
             }.collect {
 
             }
