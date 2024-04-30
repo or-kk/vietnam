@@ -13,13 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import io.orkk.vietnam.R
-import io.orkk.vietnam.model.signin.SignInItem
 import io.orkk.vietnam.model.tcpip.ReceivePacket
 import io.orkk.vietnam.utils.packet.ConvertReceivePacketToData
-import io.orkk.vietnam.utils.packet.PacketManager
+import io.orkk.vietnam.utils.packet.PacketFactory
 import io.orkk.vietnam.model.tcpip.RXPackets
-import io.orkk.vietnam.model.tcpip.TXPackets
-import io.orkk.vietnam.utils.packet.RequestPacket
+import io.orkk.vietnam.model.tcpip.RequestPacket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -142,7 +140,7 @@ class TcpService : LifecycleService() {
         // for sign in test
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            delay(1000L)
-//            PacketManager.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
+//            PacketFactory.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
 //                sendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
 //            }
 //        }
@@ -381,29 +379,29 @@ class TcpService : LifecycleService() {
         } else {
             if (pingTime != 0L && (System.currentTimeMillis() - pingTime) > SEND_PING_PACKET_TIME) {
 
-                PacketManager.lossPackets.size.let { lossPacketCount ->
-                    with(RequestPacket) {
+                PacketFactory.lossPackets.size.let { lossPacketCount ->
+                    with(PacketFactory) {
                         if (lossPacketCount > 0) {
-                            indexOfPacketStart = PacketManager.lossPackets[0]
-                            indexOfPacketEnd = PacketManager.lossPackets[lossPacketCount - 1]
+                            packetStartIndex = lossPackets[0]
+                            packetEndIndex = lossPackets[lossPacketCount - 1]
                         } else {
-                            indexOfPacketStart = PacketManager.indexPacketReceive
-                            indexOfPacketEnd = 0
+                            packetStartIndex = indexPacketReceive
+                            packetEndIndex = 0
                         }
                     }
                 }
 
-                if (PacketManager.indexPacketReceive >= PACKET_RECEIVE_INDEX_BASEMENT) {
-                    with(RequestPacket) {
-                        indexOfPacketStart = REQ_PACKET_START_INDEX
-                        indexOfPacketEnd = REQ_PACKET_END_INDEX
+                if (PacketFactory.indexPacketReceive >= PACKET_RECEIVE_INDEX_BASEMENT) {
+                    with(PacketFactory) {
+                        packetStartIndex = REQ_PACKET_START_INDEX
+                        packetEndIndex = REQ_PACKET_END_INDEX
                     }
                 }
 
-                Timber.e("sendPacket -> COMMAND_REQ_PACKET -> indexOfPacketStart : ${RequestPacket.indexOfPacketStart} indexOfPacketEnd : ${RequestPacket.indexOfPacketEnd}")
+                Timber.e("sendPacket -> COMMAND_REQUEST_PACKET -> indexOfPacketStart : ${PacketFactory.packetStartIndex} indexOfPacketEnd : ${PacketFactory.packetEndIndex}")
 
-                PacketManager.makePacket(RXPackets.COMMAND_REQ_PACKET, RequestPacket).apply {
-                    SendPacketQueue.enQueue(RXPackets.COMMAND_REQ_PACKET, this)
+                PacketFactory.makePacket(RXPackets.COMMAND_REQUEST_PACKET, RequestPacket(PacketFactory.packetStartIndex, PacketFactory.packetEndIndex)).apply {
+                    SendPacketQueue.enQueue(RXPackets.COMMAND_REQUEST_PACKET, this)
                 }
 
                 pingTime = System.currentTimeMillis()

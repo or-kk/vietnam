@@ -58,6 +58,7 @@ object Dependencies {
         const val easyPermission = "pub.devrel:easypermissions:${Versions.Others.easyPermission}"
         const val timber = "com.jakewharton.timber:timber:${Versions.Others.timber}"
         const val toasty = "com.github.GrenderG:Toasty:${Versions.Others.toasty}"
+        const val lottie = "com.airbnb.android:lottie:${Versions.Others.lottie}"
     }
 
     object Test {

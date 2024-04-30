@@ -64,6 +64,7 @@ dependencies {
     implementation(Dependencies.Others.easyPermission)
     implementation(Dependencies.Others.timber)
     implementation(Dependencies.Others.toasty)
+    implementation(Dependencies.Others.lottie)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidXJunit)

@@ -4,10 +4,8 @@ import io.orkk.vietnam.model.tcpip.RXPackets
 import io.orkk.vietnam.model.tcpip.ReceivePacket
 import io.orkk.vietnam.service.SendPacketQueue
 import io.orkk.vietnam.utils.converter.DataUtils
-import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
-import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.runBlocking
@@ -17,11 +15,21 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
 
     var receiveTime: Long = System.currentTimeMillis()
 
+    private fun decimalToHex(decimal: Int): String {
+        return Integer.toHexString(decimal)
+    }
+
     fun convertPacket(receivePacket: ReceivePacket) {
         receiveTime = System.currentTimeMillis()
 
-        Timber.e("ConvertReceivePacketToData -> ${receivePacket.command}")
+        Timber.e("ConvertReceivePacketToData -> ${decimalToHex(receivePacket.command)}")
         when(receivePacket.command) {
+            RXPackets.COMMAND_SIGN_IN_OK -> {
+                Timber.e("COMMAND_SIGN_IN_OK")
+                runBlocking {
+                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_OK)
+                }
+            }
             RXPackets.COMMAND_SIGN_IN_FAIL_01 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_01")
                 runBlocking {
@@ -57,7 +65,7 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
                 }
             }
 
-            RXPackets.COMMAND_REQ_PACKET -> {
+            RXPackets.COMMAND_REQUEST_PACKET -> {
                 val arSPacket = ByteArray(4)
                 val arEPacket = ByteArray(4)
 
@@ -74,19 +82,19 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
 
                 Timber.d("ProcessReceivePacket >> processPacket() >>  CMD_REQ_PACKET >> nSPacket : $nSPacket nEPacket : $nEPacket")
 
-                val cntSPacket: Int = PacketManager.sendPackets.size
+                val cntSPacket: Int = PacketFactory.sendPackets.size
 
                 if (nEPacket >= nEPacket) {
                     for (i in cntSPacket - 1 downTo 0) {
-                        if (PacketManager.sendPackets[i].sendIndex in nSPacket..nEPacket) {
-                            SendPacketQueue.enQueue(PacketManager.sendPackets[i].sendCommand, PacketManager.sendPackets[i])
-                            PacketManager.sendPackets.removeAt(i)
+                        if (PacketFactory.sendPackets[i].sendIndex in nSPacket..nEPacket) {
+                            SendPacketQueue.enQueue(PacketFactory.sendPackets[i].sendCommand, PacketFactory.sendPackets[i])
+                            PacketFactory.sendPackets.removeAt(i)
                         }
                     }
                 } else {
                     for (i in cntSPacket - 1 downTo 0) {
-                        if (PacketManager.sendPackets[i].sendIndex <= nSPacket) {
-                            PacketManager.sendPackets.removeAt(i)
+                        if (PacketFactory.sendPackets[i].sendIndex <= nSPacket) {
+                            PacketFactory.sendPackets.removeAt(i)
                         }
                     }
                 }

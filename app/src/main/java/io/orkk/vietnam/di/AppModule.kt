@@ -7,7 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.data.remote.UserRepositoryImpl
 import io.orkk.vietnam.service.SendPacketQueue
-import io.orkk.vietnam.utils.packet.PacketManager
+import io.orkk.vietnam.utils.packet.PacketFactory
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -15,8 +15,8 @@ import javax.inject.Singleton
 class AppModule {
 
     @Provides
-    fun providePacketManager(): PacketManager {
-        return PacketManager
+    fun providePacketFactory(): PacketFactory {
+        return PacketFactory
     }
 
     @Provides
@@ -27,8 +27,8 @@ class AppModule {
     @Provides
     @Singleton
     fun provideUserRepository(
-        packetManager: PacketManager
+        packetFactory: PacketFactory
     ): UserRepository {
-        return UserRepositoryImpl(packetManager)
+        return UserRepositoryImpl(packetFactory)
     }
 }

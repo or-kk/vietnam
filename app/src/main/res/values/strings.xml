@@ -26,4 +26,10 @@
     <string name="sign_in_id_empty_error">ID is blank, please enter your ID</string>
     <string name="sign_in_id_common_error">Please check your ID, The ID cannot be less than 0 or more than 256.</string>
     <string name="sign_in_password_empty_error">ID is blank, please enter your ID</string>
+    <string name="sign_in_fail_message">Login failed. Please try again.</string>
+    <string name="sign_in_fail_message1">This account is already logged in.</string>
+    <string name="sign_in_fail_message2">There is no matching reservation information.</string>
+    <string name="sign_in_fail_message3">There is no response from the server. please try again.</string>
+    <string name="sign_in_fail_message4">The MAC address does not exist.</string>
+    <string name="sign_in_fail_message5">The password is incorrect. Please enter again.</string>
 </resources>

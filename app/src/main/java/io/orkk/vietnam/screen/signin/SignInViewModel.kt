@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -73,15 +74,25 @@ class SignInViewModel @Inject constructor(
         preferenceRepository.setSavePassword(inputPassword.value)
     }
 
+    private fun setSaveId() = viewModelScope.launch {
+        preferenceRepository.setSaveId(inputId.value)
+    }
+
     fun navigateToMain() {
         _navigateToMain.value = Event(Unit)
     }
 
     fun signInWithMiddleware() {
         viewModelScope.launch {
+            setSaveId()
             userRepository.signInWithMiddleware(inputId.value, inputPassword.value).onEach {
+                setLoading(true)
             }.collect {
-
+                if (it) {
+                    Timber.i("true")
+                } else {
+                    Timber.i("false")
+                }
             }
         }
     }

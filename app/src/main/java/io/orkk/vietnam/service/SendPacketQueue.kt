@@ -25,6 +25,14 @@ class SendPacketQueue @Inject constructor() {
             Timber.i("SendPacketQueue -> enQueue -> commandArrayDeque -> ${commandArrayDeque.first()}")
         }
 
+        fun isExistCommand(commend: Int): Boolean {
+            val isExist = commandArrayDeque.find {
+                it == commend
+            }
+
+            return isExist!= null
+        }
+
         fun deQueue(): Int {
             packetCommand = commandArrayDeque.first()
             packetData = dataArrayDeque.first()

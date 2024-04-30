@@ -28,7 +28,7 @@ class DataUtils {
                     }
                 }
             } catch (e: UnsupportedEncodingException) {
-                Timber.e("KoPacketManager >> convertByteToString UnsupportedEncodingException >> ${e.message}")
+                Timber.e("DataUtils -> convertByteToString UnsupportedEncodingException -> ${e.message}")
             }
 
             return null
@@ -58,7 +58,7 @@ class DataUtils {
 
                 }
             } catch (e: UnsupportedEncodingException) {
-                Timber.e("KoPacketManager >> convertStringToByte UnsupportedEncodingException >> ${e.message}")
+                Timber.e("DataUtils -> convertStringToByte UnsupportedEncodingException -> ${e.message}")
             }
 
             return null

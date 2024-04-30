@@ -2,20 +2,22 @@ package io.orkk.vietnam.screen.signin
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import es.dmoral.toasty.Toasty
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.FragmentSignInBinding
+import io.orkk.vietnam.model.tcpip.RXPackets
 import io.orkk.vietnam.screen.BaseFragment
 import io.orkk.vietnam.utils.event.EventObserver
 import io.orkk.vietnam.utils.extension.safeNavigate
 import io.orkk.vietnam.utils.DebounceTextWatcher
 import io.orkk.vietnam.utils.extension.launchAndRepeatWithViewLifecycle
 import io.orkk.vietnam.utils.extension.setTextInputError
-import kotlinx.coroutines.flow.count
+import io.orkk.vietnam.utils.packet.PacketUtils
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -85,8 +87,20 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 }
             }
 
+            signInViewModel.loading.observe(viewLifecycleOwner, Observer {
+                if (it) showLoading() else hideLoading()
+            })
+
             signInViewModel.dataFlow.collect { data ->
-                Timber.w("data is $data")
+                when (data) {
+                    RXPackets.COMMAND_SIGN_IN_FAIL_01..RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
+                        hideLoading()
+                        Toasty.error(requireActivity(), PacketUtils.getSignInFailMessage(requireActivity(), command = data), Toast.LENGTH_SHORT, false).show();
+                    }
+                    RXPackets.COMMAND_SIGN_IN_OK -> {
+                        hideLoading()
+                    }
+                }
             }
         }
 
