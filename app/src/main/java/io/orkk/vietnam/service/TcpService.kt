@@ -18,6 +18,7 @@ import io.orkk.vietnam.utils.packet.ConvertReceivePacketToData
 import io.orkk.vietnam.utils.packet.PacketFactory
 import io.orkk.vietnam.model.tcpip.RXPackets
 import io.orkk.vietnam.model.tcpip.RequestPacket
+import io.orkk.vietnam.model.tcpip.TXPackets.Companion.getTransmitCommandNameByHexadecimal
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -373,7 +374,7 @@ class TcpService : LifecycleService() {
     private fun sendPacket() {
         if (SendPacketQueue.check()) {
             SendPacketQueue.deQueue().also { command ->
-                Timber.e("sendPacket deQueue -> $command")
+                Timber.e("sendPacket deQueue -> ${getTransmitCommandNameByHexadecimal(command)}")
                 if (command != 0) writeSendSocket(command, SendPacketQueue.packetData)
             }
         } else {
@@ -398,10 +399,9 @@ class TcpService : LifecycleService() {
                     }
                 }
 
-                Timber.e("sendPacket -> COMMAND_REQUEST_PACKET -> indexOfPacketStart : ${PacketFactory.packetStartIndex} indexOfPacketEnd : ${PacketFactory.packetEndIndex}")
-
-                PacketFactory.makePacket(RXPackets.COMMAND_REQUEST_PACKET, RequestPacket(PacketFactory.packetStartIndex, PacketFactory.packetEndIndex)).apply {
-                    SendPacketQueue.enQueue(RXPackets.COMMAND_REQUEST_PACKET, this)
+                Timber.d("sendPacket -> COMMAND_REQUEST_PACKET -> indexOfPacketStart : ${PacketFactory.packetStartIndex} indexOfPacketEnd : ${PacketFactory.packetEndIndex}")
+                PacketFactory.makePacket(RXPackets.RECEIVE_COMMAND_REQUEST_PACKET, RequestPacket(PacketFactory.packetStartIndex, PacketFactory.packetEndIndex)).apply {
+                    SendPacketQueue.enQueue(RXPackets.RECEIVE_COMMAND_REQUEST_PACKET, this)
                 }
 
                 pingTime = System.currentTimeMillis()

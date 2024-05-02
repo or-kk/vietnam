@@ -1,9 +1,11 @@
 package io.orkk.vietnam.utils.packet
 
 import io.orkk.vietnam.model.tcpip.RXPackets
+import io.orkk.vietnam.model.tcpip.RXPackets.Companion.getReceiveCommandNameByHexadecimal
 import io.orkk.vietnam.model.tcpip.ReceivePacket
 import io.orkk.vietnam.service.SendPacketQueue
 import io.orkk.vietnam.utils.converter.DataUtils
+import io.orkk.vietnam.utils.converter.DataUtils.Companion.convertDecimalToHexString
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.BUFFERED
 import kotlinx.coroutines.flow.Flow
@@ -15,57 +17,54 @@ class ConvertReceivePacketToData(private var sendPacketQueue: SendPacketQueue) {
 
     var receiveTime: Long = System.currentTimeMillis()
 
-    private fun decimalToHex(decimal: Int): String {
-        return Integer.toHexString(decimal)
-    }
-
     fun convertPacket(receivePacket: ReceivePacket) {
         receiveTime = System.currentTimeMillis()
 
-        Timber.e("ConvertReceivePacketToData -> ${decimalToHex(receivePacket.command)}")
-        when(receivePacket.command) {
-            RXPackets.COMMAND_SIGN_IN_OK -> {
+        Timber.d("ConvertReceivePacketToData -> ${getReceiveCommandNameByHexadecimal(receivePacket.command)} hex -> ${convertDecimalToHexString(receivePacket.command)}")
+        when (receivePacket.command) {
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_OK -> {
                 Timber.e("COMMAND_SIGN_IN_OK")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_OK)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_OK)
                 }
             }
-            RXPackets.COMMAND_SIGN_IN_FAIL_01 -> {
+
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_01 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_01")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_01)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_01)
                 }
             }
 
-            RXPackets.COMMAND_SIGN_IN_FAIL_02 -> {
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_02 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_02")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_02)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_02)
                 }
             }
 
-            RXPackets.COMMAND_SIGN_IN_FAIL_03 -> {
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_03 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_03")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_03)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_03)
                 }
             }
 
-            RXPackets.COMMAND_SIGN_IN_FAIL_04 -> {
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_04 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_04")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_04)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_04)
                 }
             }
 
-            RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
+            RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_05 -> {
                 Timber.e("COMMAND_SIGN_IN_FAIL_05")
                 runBlocking {
-                    PacketChannel.sendChannel(RXPackets.COMMAND_SIGN_IN_FAIL_05)
+                    PacketChannel.sendChannel(RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_05)
                 }
             }
 
-            RXPackets.COMMAND_REQUEST_PACKET -> {
+            RXPackets.RECEIVE_COMMAND_REQUEST_PACKET -> {
                 val arSPacket = ByteArray(4)
                 val arEPacket = ByteArray(4)
 

@@ -38,21 +38,15 @@ class DataUtils {
             try {
                 return when (Constants.language) {
                     LanguageType.LANGUAGE_TYPE_KOR.code -> {
-                        Timber.e("1 str value $value")
-                        Timber.e("1 str value ${value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_KOR.encoding))}")
-                        Timber.e("1 str value ${convertByteToString(value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_KOR.encoding)))}")
                         value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_KOR.encoding))
                     }
                     LanguageType.LANGUAGE_TYPE_JPN.code -> {
-                        Timber.e("2 str value $value")
                         value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_JPN.encoding))
                     }
                     LanguageType.LANGUAGE_TYPE_USA.code -> {
-                        Timber.e("3 str value $value")
                         value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_USA.encoding))
                     }
                     else -> {
-                        Timber.e("4 str value $value")
                         value.toByteArray(charset(LanguageType.LANGUAGE_TYPE_KOR.encoding))
                     }
 
@@ -117,6 +111,8 @@ class DataUtils {
             arBytes[0] = (num and 0xff).toByte()
             return arBytes
         }
+
+        fun convertDecimalToHexString(value: Int): String = Integer.toHexString(value)
 
         fun convertStringToByteArray(value: String?): ByteArray? {
             return try {

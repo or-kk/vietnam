@@ -19,7 +19,6 @@ import io.orkk.vietnam.utils.extension.launchAndRepeatWithViewLifecycle
 import io.orkk.vietnam.utils.extension.setTextInputError
 import io.orkk.vietnam.utils.packet.PacketUtils
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
@@ -93,11 +92,11 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
             signInViewModel.dataFlow.collect { data ->
                 when (data) {
-                    RXPackets.COMMAND_SIGN_IN_FAIL_01..RXPackets.COMMAND_SIGN_IN_FAIL_05 -> {
+                    RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_01..RXPackets.RECEIVE_COMMAND_SIGN_IN_FAIL_05 -> {
                         hideLoading()
                         Toasty.error(requireActivity(), PacketUtils.getSignInFailMessage(requireActivity(), command = data), Toast.LENGTH_SHORT, false).show();
                     }
-                    RXPackets.COMMAND_SIGN_IN_OK -> {
+                    RXPackets.RECEIVE_COMMAND_SIGN_IN_OK -> {
                         hideLoading()
                     }
                 }

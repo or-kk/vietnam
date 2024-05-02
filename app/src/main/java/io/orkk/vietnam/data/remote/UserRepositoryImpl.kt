@@ -15,9 +15,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun signInWithMiddleware(id: String?, password: String?): Flow<Boolean> = flow {
         Timber.i("sign in id -> $id password -> $password")
-        packetFactory.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(id = id!!.toInt())).apply {
-            SendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
-            SendPacketQueue.isExistCommand(TXPackets.COMMAND_SIGN_IN).let {
+        packetFactory.makePacket(command = TXPackets.TRANSMIT_COMMAND_SIGN_IN, obj = SignInItem(id = id!!.toInt())).apply {
+            SendPacketQueue.enQueue(TXPackets.TRANSMIT_COMMAND_SIGN_IN, this)
+            SendPacketQueue.isExistCommand(TXPackets.TRANSMIT_COMMAND_SIGN_IN).let {
                 if (it) emit(true) else emit(false)
             }
         }
