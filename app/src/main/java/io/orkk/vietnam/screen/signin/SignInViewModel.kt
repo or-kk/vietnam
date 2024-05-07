@@ -67,6 +67,15 @@ class SignInViewModel @Inject constructor(
         viewModelScope, SharingStarted.WhileSubscribed(5000), false
     )
 
+    val loginTypes = listOf<String>("0", "1")
+
+    private val _loginType = MutableLiveData<Int>()
+    val loginType: LiveData<Int> = _loginType
+
+    fun setSelectedLoginType(type: String) {
+        _loginType.value = type.toInt()
+    }
+
     val dataFlow: Flow<Any> = ConvertReceivePacketToData.PacketChannel.receive()
 
     fun setSavePassword(isChecked: Boolean) = viewModelScope.launch {
@@ -85,7 +94,7 @@ class SignInViewModel @Inject constructor(
     fun signInWithMiddleware() {
         viewModelScope.launch {
             setSaveId()
-            userRepository.signInWithMiddleware(inputId.value, inputPassword.value).onEach {
+            userRepository.signInWithMiddleware(inputId.value, inputPassword.value, loginType.value!!).onEach {
                 setLoading(true)
             }.collect {
                 if (it) {

@@ -21,6 +21,8 @@
     <string name="sign_in">Login</string>
     <string name="sign_in_id_hint">Enter your ID</string>
     <string name="sign_in_password_hint">Enter your password</string>
+    <string name="sign_in_type">Login type</string>
+    <string name="sign_in_representative_save">representative cart</string>
     <string name="sign_in_password_save">save password</string>
 
     <string name="sign_in_id_empty_error">ID is blank, please enter your ID</string>

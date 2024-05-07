@@ -5,5 +5,6 @@ data class SignInItem(
     var id: Int = 0,
     var cartNumber: Byte = 0,
     var powerOn: Byte = 0,
-    var macAddress: String? = "T1-E2-S3-T4-P5-C6"
+    var macAddress: String? = "T1-E2-S3-T4-P5-C6",
+    var loginType: Int = 0
 )

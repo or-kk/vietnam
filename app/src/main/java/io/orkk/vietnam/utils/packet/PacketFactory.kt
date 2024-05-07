@@ -27,10 +27,11 @@ object PacketFactory {
                 val signInItem = obj as SignInItem
                 val menuVersion = DataUtils.convertDoubleToByteArray(signInItem.menuVer)
                 val id = DataUtils.convertIntToByteArray(signInItem.id)
-                val cartNumber = byteArrayOf(signInItem.cartNumber)
+                val cartNumber = byteArrayOf(signInItem.id.toByte())
                 val powers = byteArrayOf(signInItem.powerOn)
+                val loginType = DataUtils.convertIntToByteArray(signInItem.loginType)
                 val macAddress = DataUtils.convertStringToByteArray(signInItem.macAddress)
-                val packetData = menuVersion + id + cartNumber + powers + macAddress!!
+                val packetData = menuVersion + id + cartNumber + powers + loginType + macAddress!!
 
                 return SendPacket(
                     sendIndex = -1,
