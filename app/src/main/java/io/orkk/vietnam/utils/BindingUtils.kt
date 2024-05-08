@@ -1,5 +1,6 @@
 package io.orkk.vietnam.utils
 
+//noinspection SuspiciousImport
 import android.R
 import android.widget.ArrayAdapter
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
@@ -14,10 +15,11 @@ fun setDropdownItems(textInputLayout: TextInputLayout, viewModel: SignInViewMode
         R.layout.simple_dropdown_item_1line,
         viewModel.loginTypes
     )
-    val exposedDropdownMenu = AppCompatAutoCompleteTextView(textInputLayout.context)
-    exposedDropdownMenu.setAdapter(adapter)
-    exposedDropdownMenu.setOnItemClickListener { _, _, position, _ ->
-        viewModel.setSelectedLoginType(viewModel.loginTypes[position])
+    val exposedDropdownMenu = AppCompatAutoCompleteTextView(textInputLayout.context).apply {
+        setAdapter(adapter)
+        setOnItemClickListener { _, _, position, _ ->
+            viewModel.setSelectedLoginType(viewModel.loginTypes[position])
+        }
     }
     textInputLayout.addView(exposedDropdownMenu)
 }
