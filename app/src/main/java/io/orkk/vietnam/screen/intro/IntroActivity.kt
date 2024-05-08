@@ -1,13 +1,17 @@
 package io.orkk.vietnam.screen.intro
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.ActivityIntroBinding
 import io.orkk.vietnam.screen.BaseActivity
+import io.orkk.vietnam.service.gps.GpsService
 import io.orkk.vietnam.service.tcp.TcpService
 import io.orkk.vietnam.service.tcp.TcpServiceConnection
 import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
@@ -27,6 +31,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
     private val navController: NavController?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         navController?.setGraph(R.navigation.nav_intro, intent.extras)
@@ -42,6 +47,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         val tcpService = Intent(applicationContext, TcpService::class.java)
         startService(tcpService)
         bindService(tcpService, tcpServiceConnection, 0)
+
+        val gpsService = Intent(applicationContext, GpsService::class.java)
+        ContextCompat.startForegroundService(this, gpsService)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -49,6 +57,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     @AfterPermissionGranted(ALL_ESSENTIAL_PERMISSION_REQUEST_CODE)
     private fun requestAllEssentialPermission() {
         if (EasyPermissions.hasPermissions(this, *getAllEssentialPermissions())) {

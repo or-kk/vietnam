@@ -2,19 +2,21 @@ package io.orkk.vietnam.utils.permission
 
 import android.Manifest
 import android.os.Build
+import androidx.annotation.RequiresApi
 import io.orkk.vietnam.R
 
 class PermissionUtils {
 
     companion object {
-        fun getAllEssentialPermissions() = getStoragePermissions() + getLocationPermissions()
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        fun getAllEssentialPermissions() = getStoragePermissions() + getLocationPermissions() + getNotificationPermission()
 
         // api >= 33
         private fun getStoragePermissions() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arrayOf(
                 Manifest.permission.READ_MEDIA_IMAGES,
                 Manifest.permission.READ_MEDIA_VIDEO,
-                Manifest.permission.READ_MEDIA_AUDIO,
+                Manifest.permission.READ_MEDIA_AUDIO
             )
         } else {
             arrayOf(
@@ -27,6 +29,9 @@ class PermissionUtils {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
+
+        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+        private fun getNotificationPermission() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) arrayOf(Manifest.permission.POST_NOTIFICATIONS) else arrayOf()
 
         fun getPermissionPopupResource(requestCode: Int): Pair<Int, Int>? {
             return when (requestCode) {

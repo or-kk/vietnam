@@ -19,9 +19,13 @@
     <uses-permission
         android:name="android.permission.READ_MEDIA_AUDIO"
         android:minSdkVersion="33" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        android:minSdkVersion="33" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
     <application
         android:name=".VietnamApplication"
@@ -53,8 +57,13 @@
         <service
             android:name=".service.tcp.TcpService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false" />
+
+        <service
+            android:name=".service.gps.GpsService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>
