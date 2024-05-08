@@ -3,7 +3,7 @@ package io.orkk.vietnam.utils.packet
 import io.orkk.vietnam.model.tcpip.RXPackets
 import io.orkk.vietnam.model.tcpip.RXPackets.Companion.getReceiveCommandNameByHexadecimal
 import io.orkk.vietnam.model.tcpip.ReceivePacket
-import io.orkk.vietnam.service.SendPacketQueue
+import io.orkk.vietnam.service.tcp.SendPacketQueue
 import io.orkk.vietnam.utils.converter.DataUtils
 import io.orkk.vietnam.utils.converter.DataUtils.Companion.convertDecimalToHexString
 import kotlinx.coroutines.channels.Channel

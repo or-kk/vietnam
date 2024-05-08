@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.data.remote.UserRepositoryImpl
-import io.orkk.vietnam.service.SendPacketQueue
+import io.orkk.vietnam.service.tcp.SendPacketQueue
 import io.orkk.vietnam.utils.packet.PacketFactory
 import javax.inject.Singleton
 

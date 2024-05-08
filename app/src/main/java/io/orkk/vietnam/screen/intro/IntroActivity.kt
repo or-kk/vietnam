@@ -8,8 +8,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.ActivityIntroBinding
 import io.orkk.vietnam.screen.BaseActivity
-import io.orkk.vietnam.service.TcpService
-import io.orkk.vietnam.service.TcpServiceConnection
+import io.orkk.vietnam.service.tcp.TcpService
+import io.orkk.vietnam.service.tcp.TcpServiceConnection
 import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
 import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.getAllEssentialPermissions
 import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.getPermissionPopupResource

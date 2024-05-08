@@ -5,7 +5,7 @@ import io.orkk.vietnam.model.signin.SignInItem
 import io.orkk.vietnam.model.tcpip.RequestPacket
 import io.orkk.vietnam.model.tcpip.TXPackets
 import io.orkk.vietnam.model.tcpip.TXPackets.Companion.getTransmitCommandNameByHexadecimal
-import io.orkk.vietnam.service.SendPacket
+import io.orkk.vietnam.service.tcp.SendPacket
 import io.orkk.vietnam.utils.converter.DataUtils
 import timber.log.Timber
 

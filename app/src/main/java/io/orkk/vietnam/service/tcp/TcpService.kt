@@ -1,4 +1,4 @@
-package io.orkk.vietnam.service
+package io.orkk.vietnam.service.tcp
 
 import android.annotation.SuppressLint
 import android.content.Intent

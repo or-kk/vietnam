@@ -1,4 +1,4 @@
-package io.orkk.vietnam.service
+package io.orkk.vietnam.service.tcp
 
 import timber.log.Timber
 import javax.inject.Inject

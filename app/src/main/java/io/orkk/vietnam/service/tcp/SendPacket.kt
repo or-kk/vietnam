@@ -1,4 +1,4 @@
-package io.orkk.vietnam.service
+package io.orkk.vietnam.service.tcp
 
 data class SendPacket(
     var sendIndex: Int,

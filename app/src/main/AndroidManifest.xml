@@ -51,7 +51,7 @@
             android:exported="false" />
 
         <service
-            android:name=".service.TcpService"
+            android:name=".service.tcp.TcpService"
             android:enabled="true"
             android:exported="false">
         </service>
