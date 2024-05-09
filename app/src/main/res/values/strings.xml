@@ -38,6 +38,6 @@
     <string name="location_title">Location</string>
 
     <string name="hole_title">Hole</string>
-
     <string name="block_mode_title">Block mode</string>
+    <string name="screen_orientation">screen orientation</string>
 </resources>
