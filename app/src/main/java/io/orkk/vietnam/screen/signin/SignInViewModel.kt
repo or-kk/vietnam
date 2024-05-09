@@ -33,6 +33,10 @@ class SignInViewModel @Inject constructor(
     val navigateToMain: LiveData<Event<Unit>>
         get() = _navigateToMain
 
+    private val _navigateToLocation = MutableLiveData<Event<Unit>>()
+    val navigateToLocation: LiveData<Event<Unit>>
+        get() = _navigateToLocation
+
     private val inputId: StateFlow<String?>
         get() = savedStateHandle.getStateFlow<String?>(KEY_OF_ID, null)
 
@@ -89,6 +93,10 @@ class SignInViewModel @Inject constructor(
 
     fun navigateToMain() {
         _navigateToMain.value = Event(Unit)
+    }
+
+    fun navigateToLocation() {
+        _navigateToLocation.value = Event(Unit)
     }
 
     fun signInWithMiddleware() {

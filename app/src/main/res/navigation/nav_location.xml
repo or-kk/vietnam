@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_location"
+    app:startDestination="@id/locationFragment">
+
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="io.orkk.vietnam.screen.location.LocationFragment"
+        android:label="@string/location_title"
+        tools:layout="@layout/fragment_location">
+
+        <action
+            android:id="@+id/action_locationFragment_to_holeFragment"
+            app:destination="@+id/holeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_locationFragment_to_blockModeFragment"
+            app:destination="@+id/blockModeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/holeFragment"
+        android:name="io.orkk.vietnam.screen.location.hole.HoleFragment"
+        android:label="@string/hole_title"
+        tools:layout="@layout/fragment_hole">
+    </fragment>
+
+    <fragment
+        android:id="@+id/blockModeFragment"
+        android:name="io.orkk.vietnam.screen.location.blockmode.BlockModeFragment"
+        android:label="@string/block_mode_title"
+        tools:layout="@layout/fragment_block_mode">
+    </fragment>
+</navigation>

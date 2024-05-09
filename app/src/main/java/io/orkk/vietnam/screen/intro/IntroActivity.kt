@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.ActivityIntroBinding
 import io.orkk.vietnam.screen.BaseActivity
-import io.orkk.vietnam.service.gps.GpsService
 import io.orkk.vietnam.service.tcp.TcpService
 import io.orkk.vietnam.service.tcp.TcpServiceConnection
 import io.orkk.vietnam.utils.permission.PermissionUtils.Companion.ALL_ESSENTIAL_PERMISSION_REQUEST_CODE
@@ -26,7 +24,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro), EasyPermissions.PermissionCallbacks {
 
-    lateinit var tcpServiceConnection: TcpServiceConnection
+    private lateinit var tcpServiceConnection: TcpServiceConnection
 
     private val navController: NavController?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.findNavController()
@@ -48,8 +46,8 @@ class IntroActivity : BaseActivity<ActivityIntroBinding>(R.layout.activity_intro
         startService(tcpService)
         bindService(tcpService, tcpServiceConnection, 0)
 
-        val gpsService = Intent(applicationContext, GpsService::class.java)
-        ContextCompat.startForegroundService(this, gpsService)
+//        val gpsService = Intent(applicationContext, GpsService::class.java)
+//        ContextCompat.startForegroundService(this, gpsService)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

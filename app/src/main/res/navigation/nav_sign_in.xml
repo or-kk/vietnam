@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/signInFragment"
         android:name="io.orkk.vietnam.screen.signin.SignInFragment"
-        android:label= "@string/sign_in_title">
+        android:label="@string/sign_in_title">
 
         <action
             android:id="@+id/action_signInFragment_to_mainActivity"
@@ -16,11 +16,21 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/action_signInFragment_to_locationActivity"
+            app:destination="@+id/nav_location"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <activity
         android:id="@+id/mainActivity"
         android:name="io.orkk.vietnam.screen.main.MainActivity"
         tools:layout="@layout/activity_main" />
+
+    <include app:graph="@navigation/nav_location" />
 </navigation>

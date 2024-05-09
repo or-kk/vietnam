@@ -50,6 +50,7 @@ class GpsService : LifecycleService() {
                 Timber.w("GPS Location Latitude -> $latitude Longitude -> $longitude")
             }
 
+            @Deprecated("Deprecated in Java", ReplaceWith("Timber.w(\"GPS onStatusChanged \$provider \$status\")", "timber.log.Timber"))
             override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
                 Timber.w("GPS onStatusChanged $provider $status")
             }

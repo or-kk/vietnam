@@ -65,11 +65,10 @@
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="20dp"
             android:hint="@string/sign_in_representative_save"
+            app:dropdownItems="@{viewModel}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ti_sign_in_password"
-            app:dropdownItems="@{viewModel}">
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/ti_sign_in_password" />
 
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cb_password_save"
@@ -106,6 +105,17 @@
             android:layout_marginBottom="30dp"
             android:onClick="@{() -> viewModel.navigateToMain()}"
             android:text="Move to Main page"
+            app:layout_constraintBottom_toTopOf="@id/btn_navigate_to_location"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_navigate_to_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:onClick="@{() -> viewModel.navigateToLocation()}"
+            android:text="Move to Location page"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

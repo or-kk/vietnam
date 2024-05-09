@@ -1,9 +1,12 @@
 package io.orkk.vietnam.di
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.orkk.vietnam.data.local.LocationRepository
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.data.remote.UserRepositoryImpl
 import io.orkk.vietnam.service.tcp.SendPacketQueue
@@ -30,5 +33,13 @@ class AppModule {
         packetFactory: PacketFactory
     ): UserRepository {
         return UserRepositoryImpl(packetFactory)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationRepository(
+        @ApplicationContext context: Context
+    ): LocationRepository {
+        return LocationRepository(context)
     }
 }

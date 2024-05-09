@@ -112,5 +112,13 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 }
             }
         })
+
+        signInViewModel.navigateToLocation.observe(viewLifecycleOwner, EventObserver {
+            activity?.run {
+                if (isTaskRoot) {
+                    findNavController().safeNavigate(SignInFragmentDirections.actionSignInFragmentToLocationActivity())
+                }
+            }
+        })
     }
 }

@@ -34,4 +34,10 @@
     <string name="sign_in_fail_message3">There is no response from the server. please try again.</string>
     <string name="sign_in_fail_message4">The MAC address does not exist.</string>
     <string name="sign_in_fail_message5">The password is incorrect. Please enter again.</string>
+
+    <string name="location_title">Location</string>
+
+    <string name="hole_title">Hole</string>
+
+    <string name="block_mode_title">Block mode</string>
 </resources>
