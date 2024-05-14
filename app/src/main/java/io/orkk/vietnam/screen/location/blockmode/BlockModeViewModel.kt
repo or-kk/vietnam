@@ -13,6 +13,8 @@ class BlockModeViewModel @Inject constructor() : BaseViewModel() {
     val currentScreenOrientation: LiveData<Int>
         get() = _currentScreenOrientation
 
+    val currentParInfo = listOf(4, 3, 5, 4, 3, 4, 5, 4, 4)
+
     init {
         _currentScreenOrientation.value = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }

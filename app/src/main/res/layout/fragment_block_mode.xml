@@ -15,24 +15,33 @@
         android:layout_height="match_parent"
         tools:context=".screen.location.blockmode.BlockModeFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/block_mode_title"
+            android:scrollbars="vertical"
+            app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <GridLayout
+                android:id="@+id/gl_block_mode"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/warningColor">
+            </GridLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:backgroundTint="@color/white"
+            android:contentDescription="@string/screen_orientation"
             android:onClick="@{() -> viewModel.setScreenOrientation()}"
             android:src="@drawable/ic_rotate"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/screen_orientation" />
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
