@@ -6,9 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.data.local.LocationRepository
 import io.orkk.vietnam.screen.BaseViewModel
+import io.orkk.vietnam.utils.GpsUtils
 import io.orkk.vietnam.utils.event.Event
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,8 +29,10 @@ class LocationViewModel @Inject constructor(
     val navigateToBlockMode: LiveData<Event<Unit>>
         get() = _navigateToBlockMode
 
+
     fun requestLocationUpdate() {
         locationRepository.requestLocationUpdates { location ->
+            GpsUtils.checkValidCoordinates(location)
             _location.value = location
         }
     }

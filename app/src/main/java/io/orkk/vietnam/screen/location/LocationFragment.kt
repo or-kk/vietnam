@@ -9,7 +9,9 @@ import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.FragmentLocationBinding
 import io.orkk.vietnam.screen.BaseFragment
 import io.orkk.vietnam.utils.event.EventObserver
+import io.orkk.vietnam.utils.extension.launchAndRepeatWithViewLifecycle
 import io.orkk.vietnam.utils.extension.safeNavigate
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment_location) {
@@ -27,6 +29,15 @@ class LocationFragment : BaseFragment<FragmentLocationBinding>(R.layout.fragment
 
     override fun initObserver() {
         super.initObserver()
+
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                locationViewModel.location.collect {
+                    dataBinding.tvLatitude.text = it?.latitude.toString()
+                    dataBinding.tvLongitude.text = it?.longitude.toString()
+                }
+            }
+        }
 
         locationViewModel.navigateToHole.observe(viewLifecycleOwner, EventObserver {
             activity?.run {
