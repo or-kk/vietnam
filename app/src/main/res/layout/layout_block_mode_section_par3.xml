@@ -6,8 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:paddingVertical="30dp">
+        android:background="@android:color/darker_gray"
+        android:padding="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_section"
@@ -18,32 +18,111 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:id="@+id/ll_section1_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/iv_section1_circle"
+                app:layout_constraintEnd_toEndOf="@id/iv_section1_circle"
+                app:layout_constraintStart_toStartOf="@id/iv_section1_circle"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:id="@+id/v_section1_cart4"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section1_cart3"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section1_cart2"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section1_cart1"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+            </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_section_circle1"
+                android:id="@+id/iv_section1_circle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/shape_section_circle"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/shape_block_mode_section_circle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
             <View
-                android:id="@+id/v_section_line1"
+                android:id="@+id/v_line1"
                 android:layout_width="30dp"
                 android:layout_height="2dp"
-                android:background="@drawable/shape_section_line"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_section_circle1"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@drawable/shape_block_mode_section_line"
+                app:layout_constraintBottom_toBottomOf="@id/iv_section1_circle"
+                app:layout_constraintEnd_toStartOf="@id/iv_section2_circle"
+                app:layout_constraintStart_toEndOf="@id/iv_section1_circle"
+                app:layout_constraintTop_toTopOf="@id/iv_section1_circle" />
+
+            <LinearLayout
+                android:id="@+id/ll_section2_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@id/iv_section2_circle"
+                app:layout_constraintEnd_toEndOf="@id/iv_section2_circle"
+                app:layout_constraintStart_toStartOf="@id/iv_section2_circle">
+
+                <View
+                    android:id="@+id/v_section2_cart4"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section2_cart3"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section2_cart2"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+
+                <View
+                    android:id="@+id/v_section2_cart1"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/shape_block_mode_section_cart" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_section_circle2"
+                android:id="@+id/iv_section2_circle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/shape_section_circle"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/shape_block_mode_section_circle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/v_section_line1"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/v_line1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

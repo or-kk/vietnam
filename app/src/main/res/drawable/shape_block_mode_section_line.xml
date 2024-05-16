@@ -2,11 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- 모향의 색상 -->
     <solid android:color="#FF0000" />
-
-    <!-- 모향의 크기 -->
-    <size
-        android:width="40dp"
-        android:height="10dp" />
 </shape>

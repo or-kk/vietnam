@@ -2,9 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
-    <!-- 색상 지정 -->
     <solid android:color="#FF0000" />
-
-    <!-- 둥근 원으로 모양 지정 -->
     <corners android:radius="50dp" />
 </shape>
