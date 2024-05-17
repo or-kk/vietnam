@@ -1,7 +1,7 @@
 package io.orkk.vietnam.utils.packet
 
 import io.orkk.vietnam.model.Constants
-import io.orkk.vietnam.model.signin.SignInItem
+import io.orkk.vietnam.model.signin.SignIn
 import io.orkk.vietnam.model.tcpip.RequestPacket
 import io.orkk.vietnam.model.tcpip.TXPackets
 import io.orkk.vietnam.model.tcpip.TXPackets.Companion.getTransmitCommandNameByHexadecimal
@@ -24,13 +24,13 @@ object PacketFactory {
         Timber.i("PacketFactory -> makePacket -> command -> ${getTransmitCommandNameByHexadecimal(command)}")
         when (command) {
             TXPackets.TRANSMIT_COMMAND_SIGN_IN -> {
-                val signInItem = obj as SignInItem
-                val menuVersion = DataUtils.convertDoubleToByteArray(signInItem.menuVer)
-                val id = DataUtils.convertIntToByteArray(signInItem.id)
-                val cartNumber = byteArrayOf(signInItem.id.toByte())
-                val powers = byteArrayOf(signInItem.powerOn)
-                val loginType = DataUtils.convertIntToByteArray(signInItem.loginType)
-                val macAddress = DataUtils.convertStringToByteArray(signInItem.macAddress)
+                val signIn = obj as SignIn
+                val menuVersion = DataUtils.convertDoubleToByteArray(signIn.menuVer)
+                val id = DataUtils.convertIntToByteArray(signIn.id)
+                val cartNumber = byteArrayOf(signIn.id.toByte())
+                val powers = byteArrayOf(signIn.powerOn)
+                val loginType = DataUtils.convertIntToByteArray(signIn.loginType)
+                val macAddress = DataUtils.convertStringToByteArray(signIn.macAddress)
                 val packetData = menuVersion + id + cartNumber + powers + loginType + macAddress!!
 
                 return SendPacket(

@@ -6,16 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.data.local.LocationRepository
 import io.orkk.vietnam.screen.BaseViewModel
-import io.orkk.vietnam.utils.GpsUtils
 import io.orkk.vietnam.utils.event.Event
+import io.orkk.vietnam.utils.location.GpsManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class LocationViewModel @Inject constructor(
-    private val locationRepository: LocationRepository
+    private val locationRepository: LocationRepository,
+    private val gpsManager: GpsManager
 ) : BaseViewModel() {
     private val _location = MutableStateFlow<Location?>(null)
     val location: StateFlow<Location?>
@@ -32,7 +32,7 @@ class LocationViewModel @Inject constructor(
 
     fun requestLocationUpdate() {
         locationRepository.requestLocationUpdates { location ->
-            GpsUtils.checkValidCoordinates(location)
+            gpsManager.checkValidCoordinates(location)
             _location.value = location
         }
     }

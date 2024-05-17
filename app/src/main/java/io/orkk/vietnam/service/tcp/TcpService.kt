@@ -141,7 +141,7 @@ class TcpService : LifecycleService() {
         // for sign in test
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            delay(1000L)
-//            PacketFactory.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignInItem(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
+//            PacketFactory.makePacket(command = TXPackets.COMMAND_SIGN_IN, obj = SignIn(0.0, 4, 4, 0.toByte(), "T1-E2-S3-T4-P5-C6")).apply {
 //                sendPacketQueue.enQueue(TXPackets.COMMAND_SIGN_IN, this)
 //            }
 //        }

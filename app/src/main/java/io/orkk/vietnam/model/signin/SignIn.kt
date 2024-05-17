@@ -1,6 +1,6 @@
 package io.orkk.vietnam.model.signin
 
-data class SignInItem(
+data class SignIn(
     var menuVer: Double = 0.0,
     var id: Int = 0,
     var cartNumber: Byte = 0,
