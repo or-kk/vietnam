@@ -6,17 +6,27 @@ import androidx.lifecycle.MutableLiveData
 import io.orkk.vietnam.model.GolfClubData
 import io.orkk.vietnam.model.game.GameElapsedTimeType
 import io.orkk.vietnam.model.game.GamePlayStateType
+import io.orkk.vietnam.model.section.SectionType
 import io.orkk.vietnam.utils.game.GamePlayManager
 import io.orkk.vietnam.utils.game.GameTimeManager
+import io.orkk.vietnam.utils.golfclub.GolfClubManager
 import io.orkk.vietnam.utils.reservation.ReservationManager
 import timber.log.Timber
 import javax.inject.Inject
 
 class LocationManager {
 
-    @Inject lateinit var reservationManager: ReservationManager
-    @Inject lateinit var gameTimeManager: GameTimeManager
-    @Inject lateinit var gamePlayManager: GamePlayManager
+    @Inject
+    lateinit var reservationManager: ReservationManager
+
+    @Inject
+    lateinit var gameTimeManager: GameTimeManager
+
+    @Inject
+    lateinit var gamePlayManager: GamePlayManager
+
+    @Inject
+    lateinit var golfClubManager: GolfClubManager
 
     // Current latitude live data start.
     private val _currentLatitude = MutableLiveData<Double>()
@@ -79,7 +89,7 @@ class LocationManager {
     // Current hole live data end.
 
     // Current section index live data start.
-    private val _currentSectionIndex = MutableLiveData<Int>()
+    private val _currentSectionIndex = MutableLiveData<Int>(-1)
     val currentSectionIndex: LiveData<Int>
         get() = _currentSectionIndex
 
@@ -93,27 +103,65 @@ class LocationManager {
         analyzePosition(latitude, longitude)
         showCurrentLocationLog()
 
-//        HolePlaySystem.inst().setEndGame()
-//        HolePlaySystem.inst().setActiveHole()
-
         if (currentHoleIndex.value == 0 && currentSectionIndex.value == 0) { // when hole index is 0 and section index is 0
 
             if (reservationManager.isAddedGame()) {
-                if (gamePlayManager.isEndGame.value == true || gameTimeManager.elapsedTime == GameElapsedTimeType.ADD_GAME_END_TIME.code) {
+                if (gamePlayManager.isGameFinished.value == true || gameTimeManager.elapsedTime == GameElapsedTimeType.ADD_GAME_END_TIME.code) {
                     gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_NONE_GAME.code)
                 } else {
                     gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_WAIT.code)
                 }
             } else {
-                if (gamePlayManager.isEndGame.value == true || gameTimeManager.elapsedTime == GameElapsedTimeType.SECOND_HALF_END_TIME.code) {
+                if (gamePlayManager.isGameFinished.value == true || gameTimeManager.elapsedTime == GameElapsedTimeType.SECOND_HALF_END_TIME.code) {
                     gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_NONE_GAME.code)
                 } else {
                     gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_WAIT.code)
                 }
             }
-
         } else {
+            if (gamePlayManager.isCourseStart.value == true ||
+                currentSectionIndex.value == SectionType.HOLE_SECTION_TEE.code ||
+                currentSectionIndex.value == SectionType.HOLE_SECTION_SECOND1.code ||
+                currentSectionIndex.value == SectionType.HOLE_SECTION_SECOND2.code ||
+                currentSectionIndex.value == SectionType.HOLE_SECTION_GREEN.code ||
+                currentSectionIndex.value!! >= SectionType.HOLE_SECTION_END.code
+            ) {
+                if (currentHoleIndex.value == 9 && currentSectionIndex.value!! >= SectionType.HOLE_SECTION_END.code) { // for 9 hole
+                    setCurrentHoleIndex(0)
+                    setCurrentSectionIndex(0)
+                } else {
+                    val courseName = golfClubManager.getCourseName(courseNumber = currentCourseIndex.value)
+                    if (courseName != null) {
+                        gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_HOLE.code)
 
+                        if (currentSectionIndex.value == SectionType.HOLE_SECTION_TEE.code) {
+                            handleCourseProgress()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleCourseProgress() {
+        when (gamePlayManager.progressCourseCount) {
+            0 -> initProgressCourse()
+            1, 2, 3 -> checkAndFinishCourse(gamePlayManager.progressCourseCount)
+        }
+    }
+
+    private fun initProgressCourse() {
+        gamePlayManager.progressCourseCount = 1
+        gamePlayManager.progressHoleCount = 0
+    }
+
+    private fun checkAndFinishCourse(courseCount: Int) {
+        if (currentHoleIndex.value == 9 && gamePlayManager.isCourseCountActive.value == true) {
+            when (courseCount) {
+                1 -> gamePlayManager.setFirstCourseFinished()
+                2 -> gamePlayManager.setSecondCourseFinished()
+                3 -> gamePlayManager.setAddGameCourseFinished()
+            }
         }
     }
 

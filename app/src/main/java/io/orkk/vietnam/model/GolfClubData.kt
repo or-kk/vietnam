@@ -95,7 +95,7 @@ data class GolfClubData(
 
     fun getCourseData(courseName: String): CourseData? {
         for (data in mArCrsData) {
-            if (data.mName == courseName) {
+            if (data.name == courseName) {
                 return data
             }
         }
@@ -105,8 +105,8 @@ data class GolfClubData(
     fun getCrsName(crsNo: Int): String? {
         try {
             for (course in mArCrsData) {
-                if (course.mNo == crsNo) {
-                    return course.mName
+                if (course.number == crsNo) {
+                    return course.name
                 }
             }
         } catch (e: Exception) {
