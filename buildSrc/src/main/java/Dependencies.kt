@@ -59,6 +59,7 @@ object Dependencies {
         const val timber = "com.jakewharton.timber:timber:${Versions.Others.timber}"
         const val toasty = "com.github.GrenderG:Toasty:${Versions.Others.toasty}"
         const val lottie = "com.airbnb.android:lottie:${Versions.Others.lottie}"
+        const val commonsNet = "commons-net:commons-net:${Versions.Others.commonsNet}"
     }
 
     object Test {

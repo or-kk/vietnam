@@ -7,9 +7,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.data.local.LocationRepository
+import io.orkk.vietnam.data.remote.FileRepository
+import io.orkk.vietnam.data.remote.FileRepositoryImpl
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.data.remote.UserRepositoryImpl
 import io.orkk.vietnam.service.tcp.SendPacketQueue
+import io.orkk.vietnam.utils.ftp.FTPClientManager
 import io.orkk.vietnam.utils.packet.PacketFactory
 import javax.inject.Singleton
 
@@ -41,5 +44,18 @@ class AppModule {
         @ApplicationContext context: Context
     ): LocationRepository {
         return LocationRepository(context)
+    }
+
+    @Provides
+    fun provideFTPClientManager(): FTPClientManager {
+        return FTPClientManager()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFileRepository(
+        ftpClientManager: FTPClientManager
+    ): FileRepository {
+        return FileRepositoryImpl(ftpClientManager)
     }
 }

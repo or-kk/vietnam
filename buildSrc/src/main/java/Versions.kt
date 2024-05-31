@@ -57,5 +57,6 @@ object Versions {
         const val timber = "5.0.1"
         const val toasty = "1.5.2"
         const val lottie = "5.2.0"
+        const val commonsNet = "3.10.0"
     }
 }
