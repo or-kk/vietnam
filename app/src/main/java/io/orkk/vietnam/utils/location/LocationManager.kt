@@ -134,8 +134,30 @@ class LocationManager {
                     if (courseName != null) {
                         gamePlayManager.setGamePlayState(GamePlayStateType.VIEW_STATE_HOLE.code)
 
-                        if (currentSectionIndex.value == SectionType.HOLE_SECTION_TEE.code) {
+                        if (currentSectionIndex.value == SectionType.HOLE_SECTION_TEE.code) { // when position is tee
                             handleCourseProgress()
+
+                            if (gamePlayManager.isFirstCourseFinished.value == true && gamePlayManager.progressCourseCount == 1
+                                && currentHoleIndex.value == 1 && gamePlayManager.progressHoleCount >= 4
+                            ) {
+                                with(gamePlayManager) {
+                                    progressCourseCount = 2
+                                    progressHoleCount = 0
+                                    progressHoleCount++
+                                }
+                            }
+
+                            if (gamePlayManager.isSecondCourseFinished.value == true && gamePlayManager.progressCourseCount == 2
+                                && currentHoleIndex.value == 1 && gamePlayManager.progressHoleCount >= 4
+                            ) {
+                                with(gamePlayManager) {
+                                    progressCourseCount = 3
+                                    progressHoleCount = 0
+                                    progressHoleCount++
+                                }
+                            }
+                        } else { // when position is not tee
+
                         }
                     }
                 }
