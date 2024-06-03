@@ -60,6 +60,9 @@ object Dependencies {
         const val toasty = "com.github.GrenderG:Toasty:${Versions.Others.toasty}"
         const val lottie = "com.airbnb.android:lottie:${Versions.Others.lottie}"
         const val commonsNet = "commons-net:commons-net:${Versions.Others.commonsNet}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.Others.retrofit}"
+        const val retrofitConverterGson = "com.squareup.retrofit2:converter-gson:${Versions.Others.retrofitConverterGson}"
+        const val okhttp3 = "com.squareup.okhttp3:okhttp:${Versions.Others.okhttp3}"
     }
 
     object Test {

@@ -66,6 +66,9 @@ dependencies {
     implementation(Dependencies.Others.toasty)
     implementation(Dependencies.Others.lottie)
     implementation(Dependencies.Others.commonsNet)
+    implementation(Dependencies.Others.retrofit)
+    implementation(Dependencies.Others.retrofitConverterGson)
+    implementation(Dependencies.Others.okhttp3)
 
     testImplementation(Dependencies.Test.junit)
     androidTestImplementation(Dependencies.Test.androidXJunit)
