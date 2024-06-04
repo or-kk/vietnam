@@ -7,6 +7,7 @@ object Dependencies {
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Kotlin.kotlin}"
         const val hiltGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:${Versions.Dagger.hilt}"
         const val navigationSafeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.AndroidX.Navigation.navigation}"
+        const val googleService = "com.google.gms:google-services:${Versions.Google.googleService}"
     }
 
     object AndroidX {
@@ -52,6 +53,12 @@ object Dependencies {
     object Dagger {
         const val hilt = "com.google.dagger:hilt-android:${Versions.Dagger.hilt}"
         const val hiltCompiler = "com.google.dagger:hilt-compiler:${Versions.Dagger.hilt}"
+    }
+
+    object Google {
+        const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.Google.firebaseBom}"
+        const val firebaseConfigKtx = "com.google.firebase:firebase-config-ktx"
+        const val firebaseAnalyticsKtx = "com.google.firebase:firebase-analytics-ktx"
     }
 
     object Others {

@@ -45,6 +45,11 @@ object Versions {
         const val hilt = "2.48"
     }
 
+    object Google {
+        const val googleService = "4.4.2"
+        const val firebaseBom = "31.2.0"
+    }
+
     object Test {
         const val junit = "4.13.2"
         const val androidJunit = "1.1.5"
@@ -58,5 +63,8 @@ object Versions {
         const val toasty = "1.5.2"
         const val lottie = "5.2.0"
         const val commonsNet = "3.10.0"
+        const val retrofit = "2.9.0"
+        const val retrofitConverterGson = "2.9.0"
+        const val okhttp3 = "4.9.0"
     }
 }

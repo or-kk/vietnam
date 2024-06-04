@@ -8,5 +8,6 @@ buildscript {
         classpath(Dependencies.Classpath.kotlinGradlePlugin)
         classpath(Dependencies.Classpath.hiltGradlePlugin)
         classpath(Dependencies.Classpath.navigationSafeArgs)
+        classpath(Dependencies.Classpath.googleService)
     }
 }

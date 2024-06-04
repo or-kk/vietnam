@@ -21,5 +21,6 @@ object Config {
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
         const val navigationSafeArgs = "androidx.navigation.safeargs.kotlin"
         const val parcelize = "kotlin-parcelize"
+        const val googleService = "com.google.gms.google-services"
     }
 }

@@ -1,7 +1,7 @@
 package io.orkk.vietnam
 
 import android.app.Application
-import android.os.Debug
+import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -14,5 +14,6 @@ class VietnamApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        FirebaseApp.initializeApp(this)
     }
 }

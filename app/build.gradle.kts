@@ -5,6 +5,7 @@ plugins {
     id(Config.Plugins.kotlinKapt)
     id(Config.Plugins.navigationSafeArgs)
     id(Config.Plugins.parcelize)
+    id(Config.Plugins.googleService)
 }
 
 android {
@@ -61,6 +62,9 @@ dependencies {
     implementation(Dependencies.AndroidX.Navigation.navigationFragment)
     implementation(Dependencies.Dagger.hilt)
     kapt(Dependencies.Dagger.hiltCompiler)
+    implementation(platform(Dependencies.Google.firebaseBom))
+    implementation(Dependencies.Google.firebaseConfigKtx)
+    implementation(Dependencies.Google.firebaseAnalyticsKtx)
     implementation(Dependencies.Others.easyPermission)
     implementation(Dependencies.Others.timber)
     implementation(Dependencies.Others.toasty)
