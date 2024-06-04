@@ -7,8 +7,8 @@ import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.utils.reservation.ReservationManager
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class ReservationModule {
 
     @Provides

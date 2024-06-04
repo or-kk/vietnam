@@ -8,8 +8,8 @@ import io.orkk.vietnam.utils.location.LocationManager
 import io.orkk.vietnam.utils.location.GpsManager
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class LocationModule {
 
     @Provides

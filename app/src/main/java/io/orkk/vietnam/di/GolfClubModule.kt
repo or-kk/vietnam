@@ -7,10 +7,9 @@ import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.utils.golfclub.GolfClubManager
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class GolfClubModule {
-
     @Provides
     @Singleton
     fun provideGolfClubModule(): GolfClubManager {

@@ -8,8 +8,8 @@ import io.orkk.vietnam.utils.game.GamePlayManager
 import io.orkk.vietnam.utils.game.GameTimeManager
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class GameModule {
 
     @Provides

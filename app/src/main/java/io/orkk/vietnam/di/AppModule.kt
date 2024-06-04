@@ -1,6 +1,7 @@
 package io.orkk.vietnam.di
 
 import android.content.Context
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,12 +13,12 @@ import io.orkk.vietnam.data.remote.FileRepositoryImpl
 import io.orkk.vietnam.data.remote.UserRepository
 import io.orkk.vietnam.data.remote.UserRepositoryImpl
 import io.orkk.vietnam.service.tcp.SendPacketQueue
-import io.orkk.vietnam.utils.ftp.FTPClientManager
 import io.orkk.vietnam.utils.packet.PacketFactory
+import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 class AppModule {
 
     @Provides
@@ -47,15 +48,11 @@ class AppModule {
     }
 
     @Provides
-    fun provideFTPClientManager(): FTPClientManager {
-        return FTPClientManager()
-    }
-
-    @Provides
     @Singleton
     fun provideFileRepository(
-        ftpClientManager: FTPClientManager
+        okHttpClient: OkHttpClient,
+        firebaseRemoteConfig: FirebaseRemoteConfig
     ): FileRepository {
-        return FileRepositoryImpl(ftpClientManager)
+        return FileRepositoryImpl(okHttpClient)
     }
 }
