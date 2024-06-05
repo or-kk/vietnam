@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_download"
+    app:startDestination="@id/downloadDialogFragment">
+
+    <dialog
+        android:id="@+id/downloadDialogFragment"
+        android:name="io.orkk.vietnam.screen.intro.download.DownloadDialogFragment"
+        tools:layout="@layout/dialog_download" />
+</navigation>
