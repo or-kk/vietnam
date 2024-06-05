@@ -1,4 +1,4 @@
-package io.orkk.vietnam.data.remote
+package io.orkk.vietnam.data.remote.user
 
 import kotlinx.coroutines.flow.Flow
 

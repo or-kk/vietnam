@@ -1,9 +1,5 @@
-package io.orkk.vietnam.data.remote
+package io.orkk.vietnam.data.remote.file
 
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import io.orkk.vietnam.model.config.ClubInfoConfigItem
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody
@@ -14,28 +10,8 @@ import java.io.InputStream
 import java.io.OutputStream
 
 class FileRepositoryImpl(
-    private val okHttpClient: OkHttpClient,
-    private val firebaseRemoteConfig: FirebaseRemoteConfig
+    private val okHttpClient: OkHttpClient
 ) : FileRepository {
-    override suspend fun fetchClubInfoConfig(
-        onSuccess: (List<ClubInfoConfigItem>) -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
-        firebaseRemoteConfig.fetchAndActivate()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    try {
-                        val jsonString = firebaseRemoteConfig.getString("club_info")
-                        val gson = Gson()
-                        val listType = object : TypeToken<List<ClubInfoConfigItem>>() {}.type
-                        val golfClubFetchInfoList: List<ClubInfoConfigItem> = gson.fromJson(jsonString, listType)
-                        onSuccess(golfClubFetchInfoList)
-                    } catch (e: Exception) {
-                        onFailure(e)
-                    }
-                }
-            }
-    }
 
     override suspend fun downloadFile(
         fileUrl: String,

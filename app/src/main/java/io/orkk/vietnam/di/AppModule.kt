@@ -8,10 +8,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.orkk.vietnam.data.local.LocationRepository
-import io.orkk.vietnam.data.remote.FileRepository
-import io.orkk.vietnam.data.remote.FileRepositoryImpl
-import io.orkk.vietnam.data.remote.UserRepository
-import io.orkk.vietnam.data.remote.UserRepositoryImpl
+import io.orkk.vietnam.data.remote.file.FileRepository
+import io.orkk.vietnam.data.remote.file.FileRepositoryImpl
+import io.orkk.vietnam.data.remote.firebase.FirebaseRepository
+import io.orkk.vietnam.data.remote.firebase.FirebaseRepositoryImpl
+import io.orkk.vietnam.data.remote.user.UserRepository
+import io.orkk.vietnam.data.remote.user.UserRepositoryImpl
 import io.orkk.vietnam.service.tcp.SendPacketQueue
 import io.orkk.vietnam.utils.packet.PacketFactory
 import okhttp3.OkHttpClient
@@ -27,7 +29,7 @@ class AppModule {
     }
 
     @Provides
-    fun provideSendPacketQueue() : SendPacketQueue {
+    fun provideSendPacketQueue(): SendPacketQueue {
         return SendPacketQueue()
     }
 
@@ -50,9 +52,16 @@ class AppModule {
     @Provides
     @Singleton
     fun provideFileRepository(
-        okHttpClient: OkHttpClient,
-        firebaseRemoteConfig: FirebaseRemoteConfig
+        okHttpClient: OkHttpClient
     ): FileRepository {
         return FileRepositoryImpl(okHttpClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseRepository(
+        firebaseRemoteConfig: FirebaseRemoteConfig
+    ): FirebaseRepository {
+        return FirebaseRepositoryImpl(firebaseRemoteConfig)
     }
 }

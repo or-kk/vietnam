@@ -1,6 +1,5 @@
-package io.orkk.vietnam.data.remote
+package io.orkk.vietnam.data.remote.file
 
-import io.orkk.vietnam.model.config.ClubInfoConfigItem
 import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Streaming
@@ -8,10 +7,6 @@ import retrofit2.http.Url
 import java.io.File
 
 interface FileRepository {
-    suspend fun fetchClubInfoConfig(
-        onSuccess: (List<ClubInfoConfigItem>) -> Unit,
-        onFailure: (Exception) -> Unit
-    )
 
     @GET
     @Streaming

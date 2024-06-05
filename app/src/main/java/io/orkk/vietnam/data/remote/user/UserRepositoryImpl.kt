@@ -1,4 +1,4 @@
-package io.orkk.vietnam.data.remote
+package io.orkk.vietnam.data.remote.user
 
 import io.orkk.vietnam.model.signin.SignIn
 import io.orkk.vietnam.model.tcpip.TXPackets
