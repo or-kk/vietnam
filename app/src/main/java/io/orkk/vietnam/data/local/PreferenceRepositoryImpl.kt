@@ -14,9 +14,26 @@ import javax.inject.Singleton
 open class PreferenceRepositoryImpl @Inject constructor(
     private val prefDatastore: DataStore<Preferences>
 ) : PreferenceRepository {
+    override val clubIndex: Flow<String?>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_CLUB_INDEX] ?: "" }
+
+    override suspend fun setClubIndex(clubIndex: String?) {
+        if (clubIndex != null) {
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_INDEX] = clubIndex }
+        }
+    }
+
+    override val clubName: Flow<String?>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_CLUB_NAME] ?: "" }
+
+    override suspend fun setClubName(clubName: String?) {
+        if (clubName != null) {
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_NAME] ?: "" }
+        }
+    }
 
     override val savedId: Flow<String?>
-        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_ID] ?: ""}
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_ID] ?: "" }
 
     override suspend fun setSaveId(id: String?) {
         if (id != null) {
@@ -43,6 +60,8 @@ open class PreferenceRepositoryImpl @Inject constructor(
     companion object {
         const val DATA_STORE_NAME = "PREFERENCE_DATA"
 
+        val PREFERENCES_KEY_OF_CLUB_INDEX = stringPreferencesKey("preference_club_index")
+        val PREFERENCES_KEY_OF_CLUB_NAME = stringPreferencesKey("preference_club_name")
         val PREFERENCES_KEY_OF_ID = stringPreferencesKey("preference_id")
         val PREFERENCES_KEY_OF_IS_SAVE_PASSWORD = booleanPreferencesKey("preference_is_save_password")
         val PREFERENCES_KEY_OF_PASSWORD = stringPreferencesKey("preference_password")
