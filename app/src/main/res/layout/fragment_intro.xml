@@ -8,6 +8,10 @@
         <variable
             name="viewModel"
             type="io.orkk.vietnam.screen.intro.IntroViewModel" />
+
+        <variable
+            name="initialViewModel"
+            type="io.orkk.vietnam.screen.intro.initial.InitialSettingViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
