@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.R
 import io.orkk.vietnam.data.local.PreferenceRepository
-import io.orkk.vietnam.data.remote.UserRepository
+import io.orkk.vietnam.data.remote.user.UserRepository
 import io.orkk.vietnam.screen.BaseViewModel
 import io.orkk.vietnam.utils.EditTextState
 import io.orkk.vietnam.utils.event.Event
