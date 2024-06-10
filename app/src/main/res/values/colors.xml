@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_primary">#215273</color>
+    <color name="color_secondary">#215273</color>
+    <color name="color_primary_disable">#d6d6d6</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<!--    <color name="vietnam">#215273</color>-->
 </resources>

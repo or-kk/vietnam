@@ -2,8 +2,44 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Vietnam" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorSecondary">@color/color_secondary</item>
     </style>
 
     <style name="Theme.Vietnam" parent="Base.Theme.Vietnam" />
+
+    <style name="DialogTheme" parent="Base.Theme.Vietnam">
+        <item name="windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@drawable/shape_dialog_fragment</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Vietnam.MediumComponent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.MaterialComponents.BottomSheetDialog</item>
+    </style>
+
+    <style name="ButtonTheme" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="shapeAppearance">@style/ShapeAppearance.Vietnam.MediumComponent</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Vietnam.Body1</item>
+        <item name="backgroundTint">@color/selector_button</item>
+        <item name="android:textColor">@color/selector_button_text</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="TextAppearance.Vietnam" parent="TextAppearance.AppCompat" />
+
+    <style name="TextAppearance.Vietnam.Body1">
+        <item name="fontFamily">@font/notosanskrregular</item>
+        <item name="android:fontFamily">@font/notosanskrregular</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
+    <style name="TextAppearance.Vietnam.Body2">
+        <item name="fontFamily">@font/notosanskrregular</item>
+        <item name="android:fontFamily">@font/notosanskrregular</item>
+        <item name="android:textSize">16dp</item>
+    </style>
 </resources>

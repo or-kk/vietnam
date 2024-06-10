@@ -18,6 +18,10 @@
     <string name="tcp_connect_socket_success">Middle -> ConnectSocket success</string>
     <string name="tcp_connect_socket_connect_fail_to_retry">Server connection failed. try connecting again.</string>
 
+    <string name="fetch_remote_config_club_info_fail_message">Basic golf club information could not be retrieved. Please restart the app.</string>
+    <string name="fetch_remote_config_url_info_fail_message">Basic url information could not be retrieved. Please restart the app.</string>
+    <string name="download_all_app_data">Download all app data.</string>
+
     <string name="sign_in">Login</string>
     <string name="sign_in_id_hint">Enter your ID</string>
     <string name="sign_in_password_hint">Enter your password</string>
