@@ -21,7 +21,7 @@ class FirebaseRepositoryImpl(
                     try {
                         val jsonString = firebaseRemoteConfig.getString(KEY_OF_CLUB_INFO)
                         val gson = Gson()
-                        val listType = object : TypeToken<List<UrlInfo>>() {}.type
+                        val listType = object : TypeToken<List<ClubInfo>>() {}.type
                         val clubInfoList: List<ClubInfo> = gson.fromJson(jsonString, listType)
                         onSuccess(clubInfoList)
                     } catch (e: Exception) {
