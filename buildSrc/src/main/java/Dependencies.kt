@@ -18,6 +18,7 @@ object Dependencies {
         const val material = "com.google.android.material:material:${Versions.AndroidX.material}"
         const val activityKtx = "androidx.activity:activity-ktx:${Versions.AndroidX.activityKtx}"
         const val fragmentKtx = "androidx.activity:activity-ktx:${Versions.AndroidX.fragmentKtx}"
+        const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-core-ktx:${Versions.AndroidX.liveDataKtx}"
         const val workManager = "androidx.work:work-runtime-ktx:${Versions.AndroidX.workManager}"
         const val startup = "androidx.startup:startup-runtime:${Versions.AndroidX.startup}"
         const val dataStore = "androidx.datastore:datastore-preferences:${Versions.AndroidX.dataStore}"

@@ -26,6 +26,7 @@ object Versions {
         const val dataStore = "1.0.0"
         const val activityKtx = "1.8.2"
         const val fragmentKtx = "1.6.2"
+        const val liveDataKtx = "2.8.1"
 
         object Lifecycle {
             const val lifecycle = "2.5.1"
