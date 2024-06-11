@@ -4,17 +4,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferenceRepository {
 
+    val isInitialSetting: Flow<Boolean>
+    suspend fun setIsInitialSetting(isInitialSetting: Boolean)
+
     val clubIndex: Flow<String?>
     suspend fun setClubIndex(clubIndex: String?)
 
-//    val isSaveClubIndex: Flow<Boolean>
-//    suspend fun setIsSaveClubIndex(isSaved: Boolean)
-
     val clubName: Flow<String?>
-
     suspend fun setClubName(clubName: String?)
-//    val isSaveClubName: Flow<Boolean>
-//    suspend fun setIsSaveClubName(isSaved: Boolean)
 
     val savedId: Flow<String?>
     suspend fun setSaveId(id: String?)

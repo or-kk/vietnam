@@ -32,6 +32,13 @@ open class PreferenceRepositoryImpl @Inject constructor(
         }
     }
 
+    override val isInitialSetting: Flow<Boolean>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] ?: false }
+
+    override suspend fun setIsInitialSetting(isInitialSetting: Boolean) {
+        prefDatastore.edit { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] = isInitialSetting }
+    }
+
     override val savedId: Flow<String?>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_ID] ?: "" }
 
@@ -62,6 +69,7 @@ open class PreferenceRepositoryImpl @Inject constructor(
 
         val PREFERENCES_KEY_OF_CLUB_INDEX = stringPreferencesKey("preference_club_index")
         val PREFERENCES_KEY_OF_CLUB_NAME = stringPreferencesKey("preference_club_name")
+        val PREFERENCES_KEY_OF_IS_INITIAL_SETTING = booleanPreferencesKey("preference_is_initial_setting")
         val PREFERENCES_KEY_OF_ID = stringPreferencesKey("preference_id")
         val PREFERENCES_KEY_OF_IS_SAVE_PASSWORD = booleanPreferencesKey("preference_is_save_password")
         val PREFERENCES_KEY_OF_PASSWORD = stringPreferencesKey("preference_password")

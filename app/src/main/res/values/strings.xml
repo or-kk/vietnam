@@ -22,6 +22,10 @@
     <string name="fetch_remote_config_url_info_fail_message">Basic url information could not be retrieved. Please restart the app.</string>
     <string name="download_all_app_data">Download all app data.</string>
 
+    <string name="initial_setting_content1">Please select the golf course that applies to you</string>
+    <string name="initial_setting_content2">You can change your golf course selection in settings.</string>
+    <string name="initial_setting_content3">After checking the golf course, click ‘confirm’</string>
+
     <string name="sign_in">Login</string>
     <string name="sign_in_id_hint">Enter your ID</string>
     <string name="sign_in_password_hint">Enter your password</string>

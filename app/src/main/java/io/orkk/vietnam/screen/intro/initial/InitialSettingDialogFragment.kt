@@ -2,6 +2,7 @@ package io.orkk.vietnam.screen.intro.initial
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -10,6 +11,7 @@ import es.dmoral.toasty.Toasty
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.DialogInitialSettingBinding
 import io.orkk.vietnam.screen.BaseDialogFragment
+import io.orkk.vietnam.utils.extension.adjustDialogFragment
 import io.orkk.vietnam.utils.extension.launchAndRepeatWithViewLifecycle
 import timber.log.Timber
 
@@ -18,6 +20,14 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
     override val layoutId: Int = R.layout.dialog_initial_setting
 
     private val initialSettingViewModel: InitialSettingViewModel by viewModels()
+
+    private val spinnerListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            initialSettingViewModel.setSelectedClub(position)
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +43,14 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
         }
 
         initView()
+        initListener()
         initObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        context?.adjustDialogFragment(this@InitialSettingDialogFragment, 0.8f, 0.45f)
+        isCancelable = false
     }
 
     private fun fetchRemoteConfig() {
@@ -47,31 +64,44 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
         super.initView()
     }
 
+    override fun initListener() {
+        super.initListener()
+        dataBinding.spGolfCourse.onItemSelectedListener = spinnerListener
+    }
+
     override fun initObserver() {
         super.initObserver()
 
         launchAndRepeatWithViewLifecycle {
-            initialSettingViewModel.clubInfoList.observe(viewLifecycleOwner, Observer { configList ->
-                configList.forEach { config ->
-                    Timber.d("Firebase remote config -> club index : ${config.clubIndex}, club name : ${config.clubName}")
-                }
-            })
+            with(initialSettingViewModel) {
+                clubInfoFetchedList.observe(viewLifecycleOwner, Observer { configList ->
+//                    val clubNames = configList.map { it.clubName }
+//                    val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, clubNames).apply {
+//                        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                    }
+//                    dataBinding.spClubList.adapter = adapter
+                })
 
-            initialSettingViewModel.clubInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
-                Timber.e("Firebase remote config -> exception -> $exception")
-                Toasty.error(requireActivity(), R.string.fetch_remote_config_fail_message, Toast.LENGTH_SHORT, false).show()
-            })
+                clubInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
+                    Timber.e("Firebase remote config club info -> exception -> $exception")
+                    Toasty.error(requireActivity(), R.string.fetch_remote_config_club_info_fail_message, Toast.LENGTH_SHORT, false).show()
+                })
 
-            initialSettingViewModel.urlInfoList.observe(viewLifecycleOwner, Observer { configList ->
-                configList.forEach { config ->
-                    Timber.d("Firebase remote config -> club index : ${config.clubIndex}, download url : ${config.downloadUrl}")
-                }
-            })
+                selectedClubInfo.observe(viewLifecycleOwner, Observer {
+                    Timber.e("select club info index -> ${it.clubIndex} name -> ${it.clubName}")
+                })
 
-            initialSettingViewModel.urlInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
-                Timber.e("Firebase remote config -> exception -> $exception")
-                Toasty.error(requireActivity(), R.string.fetch_remote_config_fail_message, Toast.LENGTH_SHORT, false).show()
-            })
+                urlInfoFetchedList.observe(viewLifecycleOwner, Observer { configList ->
+                    configList.forEach { config ->
+                        Timber.d("Firebase remote config -> club index : ${config.clubIndex}, download url : ${config.downloadUrl}")
+                    }
+                })
+
+                urlInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
+                    Timber.e("Firebase remote config url info -> exception -> $exception")
+                    Toasty.error(requireActivity(), R.string.fetch_remote_config_url_info_fail_message, Toast.LENGTH_SHORT, false).show()
+                })
+            }
         }
     }
 }

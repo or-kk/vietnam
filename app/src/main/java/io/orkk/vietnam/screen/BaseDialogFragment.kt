@@ -1,5 +1,6 @@
 package io.orkk.vietnam.screen
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
+import io.orkk.vietnam.R
 
 abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment() {
 
@@ -24,6 +26,11 @@ abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _dataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
         return dataBinding.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        setStyle(STYLE_NO_TITLE, R.style.DialogTheme)
+        return super.onCreateDialog(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
