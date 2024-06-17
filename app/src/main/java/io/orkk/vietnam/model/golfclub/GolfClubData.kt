@@ -1,5 +1,8 @@
-package io.orkk.vietnam.model
+package io.orkk.vietnam.model.golfclub
 
+import io.orkk.vietnam.model.ClubPosItem
+import io.orkk.vietnam.model.CourseData
+import io.orkk.vietnam.model.GeoPoint
 import timber.log.Timber
 
 data class GolfClubData(

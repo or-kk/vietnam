@@ -3,7 +3,7 @@ package io.orkk.vietnam.utils.location
 import android.location.Location
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import io.orkk.vietnam.model.GolfClubData
+import io.orkk.vietnam.model.golfclub.GolfClubData
 import io.orkk.vietnam.model.game.GameElapsedTimeType
 import io.orkk.vietnam.model.game.GamePlayStateType
 import io.orkk.vietnam.model.section.SectionType
