@@ -5,8 +5,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import io.orkk.vietnam.model.config.UrlInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,10 +16,19 @@ import javax.inject.Singleton
 open class PreferenceRepositoryImpl @Inject constructor(
     private val prefDatastore: DataStore<Preferences>
 ) : PreferenceRepository {
+
+    override val isInitialSetting: Flow<Boolean>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] ?: false }
+
+    override suspend fun setIsInitialSetting(isInitialSetting: Boolean) {
+        prefDatastore.edit { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] = isInitialSetting }
+    }
+
     override val clubIndex: Flow<String?>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_CLUB_INDEX] ?: "" }
 
     override suspend fun setClubIndex(clubIndex: String?) {
+        Timber.e("ralph clubinex2222 : $clubIndex")
         if (clubIndex != null) {
             prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_INDEX] = clubIndex }
         }
@@ -28,15 +39,17 @@ open class PreferenceRepositoryImpl @Inject constructor(
 
     override suspend fun setClubName(clubName: String?) {
         if (clubName != null) {
-            prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_NAME] ?: "" }
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_NAME] = clubName }
         }
     }
 
-    override val isInitialSetting: Flow<Boolean>
-        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] ?: false }
+    override val downloadMainUrl: Flow<String?>
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL] ?: "" }
 
-    override suspend fun setIsInitialSetting(isInitialSetting: Boolean) {
-        prefDatastore.edit { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] = isInitialSetting }
+    override suspend fun setDownloadMainUrl(downloadMainUrl: String?) {
+        if (downloadMainUrl != null) {
+            prefDatastore.edit { it[PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL] = downloadMainUrl }
+        }
     }
 
     override val savedId: Flow<String?>
@@ -69,6 +82,7 @@ open class PreferenceRepositoryImpl @Inject constructor(
 
         val PREFERENCES_KEY_OF_CLUB_INDEX = stringPreferencesKey("preference_club_index")
         val PREFERENCES_KEY_OF_CLUB_NAME = stringPreferencesKey("preference_club_name")
+        val PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL = stringPreferencesKey("preference_download_main_url")
         val PREFERENCES_KEY_OF_IS_INITIAL_SETTING = booleanPreferencesKey("preference_is_initial_setting")
         val PREFERENCES_KEY_OF_ID = stringPreferencesKey("preference_id")
         val PREFERENCES_KEY_OF_IS_SAVE_PASSWORD = booleanPreferencesKey("preference_is_save_password")

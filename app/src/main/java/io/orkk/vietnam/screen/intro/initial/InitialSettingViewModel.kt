@@ -9,11 +9,11 @@ import io.orkk.vietnam.data.remote.firebase.FirebaseRepository
 import io.orkk.vietnam.model.config.ClubInfo
 import io.orkk.vietnam.model.config.UrlInfo
 import io.orkk.vietnam.screen.BaseViewModel
+import io.orkk.vietnam.utils.event.Event
 import io.orkk.vietnam.utils.extension.asStateFlow
 import io.orkk.vietnam.utils.extension.whileSubscribed
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -36,10 +36,6 @@ class InitialSettingViewModel @Inject constructor(
     private val clubName: StateFlow<String?> = preferenceRepository.clubName.stateIn(
         viewModelScope, whileSubscribed(), null
     )
-
-    val isExistClubInfo: StateFlow<Boolean?> = combine(clubIndex, clubName) { index, name ->
-        index != null && name != null
-    }.stateIn(viewModelScope, whileSubscribed(), null)
 
     private val _clubInfoFetchedList = MutableLiveData<List<ClubInfo>>()
     val clubInfoFetchedList: LiveData<List<ClubInfo>>
@@ -64,6 +60,10 @@ class InitialSettingViewModel @Inject constructor(
     val isEnableSetClubInfo: StateFlow<Boolean> = _selectedClubInfo.asStateFlow(viewModelScope).map {
         it?.clubIndex != "0" && it?.clubIndex != null
     }.stateIn(viewModelScope, SharingStarted.Lazily, false)
+
+    private val _navigateToDownload = MutableLiveData<Event<Unit>>()
+    val navigateToDownload: LiveData<Event<Unit>>
+        get() = _navigateToDownload
 
     fun setSelectedClub(position: Int) {
         val list = _clubInfoFetchedList.value
@@ -106,5 +106,16 @@ class InitialSettingViewModel @Inject constructor(
             setClubName(clubName = selectedClubInfo.value?.clubName)
             setIsInitialSetting(isInitialSetting = true)
         }
+        setDownloadInfo()
+        navigateToDownload()
+    }
+
+    fun setDownloadInfo() = viewModelScope.launch {
+        val mainUrl = urlInfoFetchedList.value?.find { it.clubIndex == selectedClubInfo.value?.clubIndex }
+        preferenceRepository.setDownloadMainUrl(downloadMainUrl = mainUrl?.downloadUrl)
+    }
+
+    private fun navigateToDownload() {
+        _navigateToDownload.value = Event(Unit)
     }
 }

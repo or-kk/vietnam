@@ -6,13 +6,16 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import io.orkk.vietnam.R
 import io.orkk.vietnam.databinding.DialogInitialSettingBinding
 import io.orkk.vietnam.screen.BaseDialogFragment
+import io.orkk.vietnam.utils.event.EventObserver
 import io.orkk.vietnam.utils.extension.adjustDialogFragment
 import io.orkk.vietnam.utils.extension.launchAndRepeatWithViewLifecycle
+import io.orkk.vietnam.utils.extension.safeNavigate
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -74,14 +77,6 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
 
         launchAndRepeatWithViewLifecycle {
             with(initialSettingViewModel) {
-                clubInfoFetchedList.observe(viewLifecycleOwner, Observer { configList ->
-//                    val clubNames = configList.map { it.clubName }
-//                    val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, clubNames).apply {
-//                        setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//                    }
-//                    dataBinding.spClubList.adapter = adapter
-                })
-
                 clubInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
                     Timber.e("Firebase remote config club info -> exception -> $exception")
                     Toasty.error(requireActivity(), R.string.fetch_remote_config_club_info_fail_message, Toast.LENGTH_SHORT, false).show()
@@ -94,6 +89,7 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
                 urlInfoFetchedList.observe(viewLifecycleOwner, Observer { configList ->
                     configList.forEach { config ->
                         Timber.d("Firebase remote config -> club index : ${config.clubIndex}, download url : ${config.downloadUrl}")
+                        initialSettingViewModel.setDownloadInfo()
                     }
                 })
 
@@ -103,5 +99,11 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
                 })
             }
         }
+
+        initialSettingViewModel.navigateToDownload.observe(viewLifecycleOwner, EventObserver {
+            activity?.run {
+                findNavController().safeNavigate(InitialSettingDialogFragmentDirections.actionInitialSettingDialogFragmentToDownloadDialogFragment())
+            }
+        })
     }
 }

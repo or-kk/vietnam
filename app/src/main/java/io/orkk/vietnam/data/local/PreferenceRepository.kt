@@ -13,6 +13,9 @@ interface PreferenceRepository {
     val clubName: Flow<String?>
     suspend fun setClubName(clubName: String?)
 
+    val downloadMainUrl: Flow<String?>
+    suspend fun setDownloadMainUrl(downloadMainUrl: String?)
+
     val savedId: Flow<String?>
     suspend fun setSaveId(id: String?)
 
