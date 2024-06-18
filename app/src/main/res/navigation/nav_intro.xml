@@ -20,14 +20,6 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
         <action
-            android:id="@+id/action_introFragment_to_downloadDialogFragment"
-            app:destination="@id/nav_download"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-
-        <action
             android:id="@+id/action_introFragment_to_initialDialogFragment"
             app:destination="@id/nav_initial_setting"
             app:enterAnim="@anim/nav_default_enter_anim"

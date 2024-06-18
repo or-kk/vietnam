@@ -8,5 +8,16 @@
     <dialog
         android:id="@+id/initialSettingDialogFragment"
         android:name="io.orkk.vietnam.screen.intro.initial.InitialSettingDialogFragment"
-        tools:layout="@layout/dialog_initial_setting" />
+        tools:layout="@layout/dialog_initial_setting">
+
+        <action
+            android:id="@+id/action_initialSettingDialogFragment_to_downloadDialogFragment"
+            app:destination="@id/nav_download"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </dialog>
+
+    <include app:graph="@navigation/nav_download" />
 </navigation>
