@@ -1,38 +1,42 @@
 <resources>
+    <!-- common -->
     <string name="app_name">Vietnam</string>
-    <string name="intro_title">Intro</string>
-    <string name="sign_in_title">Sign in</string>
-
     <string name="common_cancel">Cancel</string>
     <string name="common_confirm">Confirm</string>
 
+    <!-- permission -->
     <string name="essential_permission_required_information_title">Grant required permissions</string>
     <string name="essential_permission_required_information_rationale">Please grant the necessary permissions to use the app.</string>
-
     <string name="storage_permission_required_information_title">Required storage permission information</string>
     <string name="storage_permission_required_information_rationale">Storage permission settings are required.</string>
-
     <string name="location_permission_required_information_title">Required location permission information</string>
     <string name="location_permission_required_information_rationale">Location permission settings are required.</string>
 
-    <string name="tcp_connect_socket_success">Middle -> ConnectSocket success</string>
-    <string name="tcp_connect_socket_connect_fail_to_retry">Server connection failed. try connecting again.</string>
+    <!-- intro -->
+    <string name="intro_title">Intro</string>
 
+    <!-- initial setting & firebase -->
     <string name="fetch_remote_config_club_info_fail_message">Basic golf club information could not be retrieved. Please restart the app.</string>
     <string name="fetch_remote_config_url_info_fail_message">Basic url information could not be retrieved. Please restart the app.</string>
-    <string name="download_all_app_data">Download all app data.</string>
-
     <string name="initial_setting_content1">Please select the golf course that applies to you</string>
     <string name="initial_setting_content2">You can change your golf course selection in settings.</string>
     <string name="initial_setting_content3">After checking the golf course, click ‘confirm’</string>
 
+    <!-- download -->
+    <string name="download_description">Automatically downloads essential data used by the app. Please wait a moment</string>
+    <string name="download_all_app_data">Download all app data.</string>
+    <string name="download_all_app_data_fail_message">Failed to download all app data. please try again.</string>
+    <string name="unzip_all_app_data">Unzip all app data.</string>
+    <string name="unzip_all_app_data_fail_message">Failed to unzip all app data. please re-run the app.</string>
+
+    <!-- sign in -->
+    <string name="sign_in_title">Sign in</string>
     <string name="sign_in">Login</string>
     <string name="sign_in_id_hint">Enter your ID</string>
     <string name="sign_in_password_hint">Enter your password</string>
     <string name="sign_in_type">Login type</string>
     <string name="sign_in_representative_save">representative cart</string>
     <string name="sign_in_password_save">save password</string>
-
     <string name="sign_in_id_empty_error">ID is blank, please enter your ID</string>
     <string name="sign_in_id_common_error">Please check your ID, The ID cannot be less than 0 or more than 256.</string>
     <string name="sign_in_password_empty_error">ID is blank, please enter your ID</string>
@@ -43,9 +47,18 @@
     <string name="sign_in_fail_message4">The MAC address does not exist.</string>
     <string name="sign_in_fail_message5">The password is incorrect. Please enter again.</string>
 
+    <!-- tcp -->
+    <string name="tcp_connect_socket_success">Middle -> ConnectSocket success</string>
+    <string name="tcp_connect_socket_connect_fail_to_retry">Server connection failed. try connecting again.</string>
+
+    <!-- location -->
     <string name="location_title">Location</string>
 
+    <!-- hole -->
     <string name="hole_title">Hole</string>
+
+    <!-- block mode -->
     <string name="block_mode_title">Block mode</string>
+
     <string name="screen_orientation">screen orientation</string>
 </resources>
