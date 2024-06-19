@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="io.orkk.vietnam.screen.intro.download.DownloadViewModel" />
@@ -25,23 +27,132 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_download_title"
+                android:id="@+id/tv_download_description"
+                style="@style/TextAppearance.Vietnam.Header1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/download_all_app_data"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/download_description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ProgressBar
-                android:id="@+id/pb_download"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_download_all_app_data"
+                style="@style/TextAppearance.Vietnam.Body1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-
+                android:text="@string/download_all_app_data"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_download_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_download_description" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_download_all_app_data"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_download_all_app_data">
+
+                <ProgressBar
+                    android:id="@+id/pb_download_all_app_data"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingVertical="10dp"
+                    android:progressDrawable="@drawable/shape_progress_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_download_all_app_data_progress"
+                    app:layout_constraintHorizontal_weight="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:progress="@{viewModel.allAppDataDownloadProgress}" />
+
+                <TextView
+                    android:id="@+id/tv_download_all_app_data_progress"
+                    style="@style/TextAppearance.Vietnam.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.allAppDataDownloadProgress == 100 ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="0.2"
+                    app:layout_constraintStart_toEndOf="@id/pb_download_all_app_data"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:progressText="@{viewModel.allAppDataDownloadProgress}"
+                    tools:text="59%" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_check"
+                    android:visibility="@{viewModel.allAppDataDownloadProgress == 100 ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="0.2"
+                    app:layout_constraintStart_toStartOf="@id/tv_download_all_app_data_progress"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tv_unzip_all_app_data"
+                style="@style/TextAppearance.Vietnam.Body1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/unzip_all_app_data"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_download_all_app_data" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_unzip_all_app_data"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_unzip_all_app_data">
+
+                <ProgressBar
+                    android:id="@+id/pb_unzip_all_app_data"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingVertical="10dp"
+                    android:progressDrawable="@drawable/shape_progress_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/tv_unzip_all_app_data_progress"
+                    app:layout_constraintHorizontal_weight="0.8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:progress="@{viewModel.allAppDataUnzipProgress}" />
+
+                <TextView
+                    android:id="@+id/tv_unzip_all_app_data_progress"
+                    style="@style/TextAppearance.Vietnam.Body1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:visibility="@{viewModel.allAppDataUnzipProgress == 100 ? View.INVISIBLE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="0.2"
+                    app:layout_constraintStart_toEndOf="@id/pb_unzip_all_app_data"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:progressText="@{viewModel.allAppDataUnzipProgress}"
+                    tools:text="59%" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_check"
+                    android:visibility="@{viewModel.allAppDataUnzipProgress == 100 ? View.VISIBLE : View.INVISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="0.2"
+                    app:layout_constraintStart_toStartOf="@id/tv_unzip_all_app_data_progress"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
