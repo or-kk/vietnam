@@ -28,7 +28,6 @@ open class PreferenceRepositoryImpl @Inject constructor(
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_CLUB_INDEX] ?: "" }
 
     override suspend fun setClubIndex(clubIndex: String?) {
-        Timber.e("ralph clubinex2222 : $clubIndex")
         if (clubIndex != null) {
             prefDatastore.edit { it[PREFERENCES_KEY_OF_CLUB_INDEX] = clubIndex }
         }
