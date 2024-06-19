@@ -21,4 +21,10 @@ interface FileRepository {
         outputFile: File,
         progressCallback: (Float) -> Unit
     )
+
+    fun unzipFile(
+        zipFile: File,
+        outputFile: File?,
+        progressCallback: (Float) -> Unit
+    ): Result<Boolean>
 }
