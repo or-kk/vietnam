@@ -7,7 +7,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.data.local.PreferenceRepository
 import io.orkk.vietnam.data.remote.file.FileRepository
 import io.orkk.vietnam.screen.BaseViewModel
+import io.orkk.vietnam.utils.FileUtils
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -26,7 +28,7 @@ class DownloadViewModel @Inject constructor(
 
     private val _downloadMainUrl = MutableLiveData<String>()
     val downloadMainUrl: LiveData<String>
-        get() =_downloadMainUrl
+        get() = _downloadMainUrl
 
     private val _allAppDataDownloadProgress = MutableLiveData<Int>()
     val allAppDataDownloadProgress: LiveData<Int>
@@ -52,8 +54,24 @@ class DownloadViewModel @Inject constructor(
         _downloadMainUrl.value = preferenceRepository.downloadMainUrl.first()
     }
 
-    fun downloadAppdata(mainUrl: String, outputFile: File) {
-        downloadFile(makeAllAppDataDownloadUrl(mainUrl), outputFile)
+    fun downloadAllAppData(mainUrl: String, outputFile: File) {
+        with(FileUtils) {
+            val (path, fileName) = getPathAndFileName(removeFileExtension(outputFile))
+            if (isFolderExists(path, fileName)) {
+                setAllAppdataDownloadCompletedProgress()
+            } else {
+                downloadFile(makeAllAppDataDownloadUrl(mainUrl), outputFile)
+            }
+        }
+    }
+
+    private fun setAllAppdataDownloadCompletedProgress() {
+        viewModelScope.launch {
+            delay(COMPLETED_PROGRESS_TIME)
+            _allAppDataDownloadProgress.postValue(COMPLETED_PROGRESS)
+            delay(COMPLETED_PROGRESS_TIME)
+            _allAppDataUnzipProgress.postValue(COMPLETED_PROGRESS)
+        }
     }
 
     private fun downloadFile(url: String, outputFile: File) {
@@ -81,5 +99,8 @@ class DownloadViewModel @Inject constructor(
     companion object {
         const val APP_UPDATE_SUB_URL = "app_update/"
         const val ALL_APP_DATA_FILE_NAME = "/allAppData.zip"
+
+        const val COMPLETED_PROGRESS_TIME = 500L
+        const val COMPLETED_PROGRESS = 100
     }
 }

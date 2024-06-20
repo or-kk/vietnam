@@ -62,7 +62,7 @@ class DownloadDialogFragment() : BaseDialogFragment<DialogDownloadBinding>() {
             launch {
                 downloadViewModel.downloadMainUrl.observe(viewLifecycleOwner, Observer {
                     val outputFile = File(activity?.getExternalFilesDir(null), ALL_APP_DATA_OUTPUT_FILE)
-                    downloadViewModel.downloadAppdata(it, outputFile)
+                    downloadViewModel.downloadAllAppData(it, outputFile)
                 })
             }
 
@@ -70,7 +70,8 @@ class DownloadDialogFragment() : BaseDialogFragment<DialogDownloadBinding>() {
                 downloadViewModel.allAppDataDownloadResult.observe(viewLifecycleOwner, Observer { result ->
                     result.onSuccess { file ->
                         Timber.d("download success all app data, file size -> $file")
-                        downloadViewModel.unzipFile(File(ALL_APP_DATA_OUTPUT_FILE), null)
+                        val outputFile = File(activity?.getExternalFilesDir(null), ALL_APP_DATA_OUTPUT_UNZIP_FILE)
+                        downloadViewModel.unzipFile(file, outputFile)
                     }.onFailure { exception ->
                         Timber.e("download all app data exception -> ${exception.message}")
                         Toasty.error(requireActivity(), R.string.download_all_app_data_fail_message, Toast.LENGTH_SHORT, false).show()
@@ -94,5 +95,6 @@ class DownloadDialogFragment() : BaseDialogFragment<DialogDownloadBinding>() {
 
     companion object {
         const val ALL_APP_DATA_OUTPUT_FILE = "GolfAppData.zip"
+        const val ALL_APP_DATA_OUTPUT_UNZIP_FILE = "GolfAppData"
     }
 }
