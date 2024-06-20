@@ -104,7 +104,12 @@ class FileRepositoryImpl(
                     }
                 }
             }
-            Result.success(true)
+
+            if (zipFile.delete()) {
+                Result.success(true)
+            } else {
+                Result.failure(Exception("Failed to delete zip file"))
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
