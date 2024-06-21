@@ -60,6 +60,7 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
         initialSettingViewModel.run {
             fetchClubInfoConfig()
             fetchUrlInfoConfig()
+            fetchAppdataUpdateInfoConfig()
         }
     }
 
@@ -96,6 +97,17 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
                 urlInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
                     Timber.e("Firebase remote config url info -> exception -> $exception")
                     Toasty.error(requireActivity(), R.string.fetch_remote_config_url_info_fail_message, Toast.LENGTH_SHORT, false).show()
+                })
+
+                appdataUpdateInfoList.observe(viewLifecycleOwner, Observer { configList ->
+                    configList.forEach {
+                        Timber.d("appdata download info list : ${it.clubIndex} downloadlist : ${it.downloadFileList}")
+                    }
+                })
+
+                appdataUpdateInfoFetchError.observe(viewLifecycleOwner, Observer { exception ->
+                    Timber.e("Firebase remote config url info -> exception -> $exception")
+                    Toasty.error(requireActivity(), R.string.fetch_remote_appdata_download_info_fail_message, Toast.LENGTH_SHORT, false).show()
                 })
             }
         }

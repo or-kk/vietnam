@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.orkk.vietnam.data.local.PreferenceRepository
 import io.orkk.vietnam.data.remote.firebase.FirebaseRepository
+import io.orkk.vietnam.model.config.AppdataUpdateInfo
 import io.orkk.vietnam.model.config.ClubInfo
 import io.orkk.vietnam.model.config.UrlInfo
 import io.orkk.vietnam.screen.BaseViewModel
@@ -53,6 +54,14 @@ class InitialSettingViewModel @Inject constructor(
     val urlInfoFetchError: LiveData<String>
         get() = _urlInfoFetchError
 
+    private val _appdataUpdateInfoList = MutableLiveData<List<AppdataUpdateInfo>>()
+    val appdataUpdateInfoList: LiveData<List<AppdataUpdateInfo>>
+        get() = _appdataUpdateInfoList
+
+    private val _appdataUpdateInfoFetchError = MutableLiveData<String>()
+    val appdataUpdateInfoFetchError: LiveData<String>
+        get() = _appdataUpdateInfoFetchError
+
     private val _selectedClubInfo = MutableLiveData<ClubInfo>()
     val selectedClubInfo: LiveData<ClubInfo>
         get() = _selectedClubInfo
@@ -95,6 +104,19 @@ class InitialSettingViewModel @Inject constructor(
                 },
                 onFailure = { exception ->
                     _urlInfoFetchError.value = exception.message
+                }
+            )
+        }
+    }
+
+    fun fetchAppdataUpdateInfoConfig() {
+        viewModelScope.launch {
+            firebaseRepository.fetchAppdataUpdateInfoConfig(
+                onSuccess = { configList ->
+                    _appdataUpdateInfoList.value = configList
+                },
+                onFailure = { exception ->
+                    _appdataUpdateInfoFetchError.value = exception.message
                 }
             )
         }

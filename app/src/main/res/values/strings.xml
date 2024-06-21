@@ -18,6 +18,7 @@
     <!-- initial setting & firebase -->
     <string name="fetch_remote_config_club_info_fail_message">Basic golf club information could not be retrieved. Please restart the app.</string>
     <string name="fetch_remote_config_url_info_fail_message">Basic url information could not be retrieved. Please restart the app.</string>
+    <string name="fetch_remote_appdata_download_info_fail_message">App download information could not be retrieved. Please restart the app.</string>
     <string name="initial_setting_content1">Please select the golf course that applies to you</string>
     <string name="initial_setting_content2">You can change your golf course selection in settings.</string>
     <string name="initial_setting_content3">After checking the golf course, click ‘confirm’</string>
