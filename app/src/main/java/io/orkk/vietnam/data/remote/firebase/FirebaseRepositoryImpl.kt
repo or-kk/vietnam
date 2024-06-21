@@ -3,6 +3,7 @@ package io.orkk.vietnam.data.remote.firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.orkk.vietnam.model.config.AppdataUpdateInfo
 import io.orkk.vietnam.model.config.ClubInfo
 import io.orkk.vietnam.model.config.UrlInfo
 
@@ -52,8 +53,30 @@ class FirebaseRepositoryImpl(
             }
     }
 
+    override suspend fun fetchAppdataUpdateInfoConfig(
+        onSuccess: (List<AppdataUpdateInfo>) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        firebaseRemoteConfig
+            .fetchAndActivate()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    try {
+                        val jsonString = firebaseRemoteConfig.getString(KEY_OF_APP_DATA_UPDATE_INFO)
+                        val gson = Gson()
+                        val listType = object : TypeToken<List<AppdataUpdateInfo>>() {}.type
+                        val appdataUpdateInfoList: List<AppdataUpdateInfo> = gson.fromJson(jsonString, listType)
+                        onSuccess(appdataUpdateInfoList)
+                    } catch (e: Exception) {
+                        onFailure(e)
+                    }
+                }
+            }
+    }
+
     companion object {
         const val KEY_OF_CLUB_INFO = "club_info"
         const val KEY_OF_URL_INFO = "url_info"
+        const val KEY_OF_APP_DATA_UPDATE_INFO = "app_data_update_info"
     }
 }
