@@ -30,6 +30,10 @@ class DownloadViewModel @Inject constructor(
     val downloadMainUrl: LiveData<String>
         get() = _downloadMainUrl
 
+    private val _latestAppDataVersion = MutableLiveData<String>()
+    val latestAppDataVersion: LiveData<String>
+        get() = _latestAppDataVersion
+
     private val _allAppDataDownloadProgress = MutableLiveData<Int>()
     val allAppDataDownloadProgress: LiveData<Int>
         get() = _allAppDataDownloadProgress
@@ -45,6 +49,30 @@ class DownloadViewModel @Inject constructor(
     private val _allAppDataUnzipResult = MutableLiveData<Result<Boolean>>()
     val allAppDataUnzipResult: LiveData<Result<Boolean>>
         get() = _allAppDataUnzipResult
+
+    private val _changedAppDataDownloadProgress = MutableLiveData<Int>()
+    val changedAppDataDownloadProgress: LiveData<Int>
+        get() = _changedAppDataDownloadProgress
+
+    private val _changedAppDataDownloadResult = MutableLiveData<Result<File>>()
+    val changedAppDataDownloadResult: LiveData<Result<File>>
+        get() = _changedAppDataDownloadResult
+
+    private val _changedAppDataUnzipProgress = MutableLiveData<Int>()
+    val changedAppDataUnzipProgress: LiveData<Int>
+        get() = _changedAppDataUnzipProgress
+
+    private val _changedAppDataUnzipResult = MutableLiveData<Result<Boolean>>()
+    val changedAppDataUnzipResult: LiveData<Result<Boolean>>
+        get() = _changedAppDataUnzipResult
+
+    fun getLatestAppDataVersion() = viewModelScope.launch {
+        _latestAppDataVersion.value = preferenceRepository.latestAppDataVersion.first()
+    }
+
+    fun setLatestAppDataVersion(version: String) = viewModelScope.launch {
+        preferenceRepository.setLatestAppDataVersion(version)
+    }
 
     fun getClubIndex() = viewModelScope.launch {
         _clubIndex.value = preferenceRepository.clubIndex.first()
@@ -63,6 +91,10 @@ class DownloadViewModel @Inject constructor(
                 downloadFile(makeAllAppDataDownloadUrl(mainUrl), outputFile)
             }
         }
+    }
+
+    fun downloadChangedAppData() {
+
     }
 
     private fun setAllAppdataDownloadCompletedProgress() {

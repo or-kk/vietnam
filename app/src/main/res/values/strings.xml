@@ -26,9 +26,13 @@
     <!-- download -->
     <string name="download_description">Automatically downloads essential data used by the app. Please wait a moment</string>
     <string name="download_all_app_data">Download all app data.</string>
-    <string name="download_all_app_data_fail_message">Failed to download all app data. please try again.</string>
+    <string name="download_all_app_data_fail_message">Failed to download all app data. Please re-run the app.</string>
     <string name="unzip_all_app_data">Unzip all app data.</string>
-    <string name="unzip_all_app_data_fail_message">Failed to unzip all app data. please re-run the app.</string>
+    <string name="unzip_all_app_data_fail_message">Failed to unzip all app data. Please re-run the app.</string>
+    <string name="download_changed_app_data">Download changed app data.</string>
+    <string name="download_changed_app_data_fail_message">Failed to download all app data. Please re-run the app.</string>
+    <string name="unzip_changed_app_data">Unzip changed app data.</string>
+    <string name="unzip_changed_app_data_fail_message">Failed to unzip changed app data. Please re-run the app.</string>
 
     <!-- sign in -->
     <string name="sign_in_title">Sign in</string>
