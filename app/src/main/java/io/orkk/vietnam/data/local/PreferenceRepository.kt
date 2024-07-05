@@ -7,11 +7,11 @@ interface PreferenceRepository {
     val isInitialSetting: Flow<Boolean>
     suspend fun setIsInitialSetting(isInitialSetting: Boolean)
 
-    val appdataDownloadList: Flow<String>
-    suspend fun setAppdataDownloadList(list: String)
+    val appDataDownloadList: Flow<String>
+    suspend fun setAppDataDownloadList(list: String)
 
-    val latestAppdataVersion: Flow<String>
-    suspend fun setLatestAppdataVersion(version: String)
+    val latestAppDataVersion: Flow<String>
+    suspend fun setLatestAppDataVersion(version: String)
 
     val clubIndex: Flow<String?>
     suspend fun setClubIndex(clubIndex: String?)

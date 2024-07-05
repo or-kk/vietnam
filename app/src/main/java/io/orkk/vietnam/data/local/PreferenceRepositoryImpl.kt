@@ -22,17 +22,17 @@ open class PreferenceRepositoryImpl @Inject constructor(
         prefDatastore.edit { it[PREFERENCES_KEY_OF_IS_INITIAL_SETTING] = isInitialSetting }
     }
 
-    override val appdataDownloadList: Flow<String>
+    override val appDataDownloadList: Flow<String>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_APP_DATA_VERSION] ?: "" }
 
-    override suspend fun setAppdataDownloadList(list: String) {
+    override suspend fun setAppDataDownloadList(list: String) {
         prefDatastore.edit { it[PREFERENCES_KEY_OF_APP_DATA_VERSION] = list }
     }
 
-    override val latestAppdataVersion: Flow<String>
+    override val latestAppDataVersion: Flow<String>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_LATEST_APP_DATA_VERSION] ?: "" }
 
-    override suspend fun setLatestAppdataVersion(version: String) {
+    override suspend fun setLatestAppDataVersion(version: String) {
         prefDatastore.edit { it[PREFERENCES_KEY_OF_LATEST_APP_DATA_VERSION] = version}
     }
 
