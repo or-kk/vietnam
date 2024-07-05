@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class AppdataUpdateInfo(
     @SerializedName("club_index")
     val clubIndex: String,
-    @SerializedName("download_file_list")
+    @SerializedName("download_list")
     val downloadFileList: String
 )
