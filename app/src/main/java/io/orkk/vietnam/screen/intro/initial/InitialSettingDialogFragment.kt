@@ -90,7 +90,6 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
                 urlInfoFetchedList.observe(viewLifecycleOwner, Observer { configList ->
                     configList.forEach { config ->
                         Timber.d("Firebase remote config -> club index : ${config.clubIndex}, download url : ${config.downloadUrl}")
-                        initialSettingViewModel.setDownloadInfo()
                     }
                 })
 

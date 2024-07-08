@@ -128,13 +128,19 @@ class InitialSettingViewModel @Inject constructor(
             setClubName(clubName = selectedClubInfo.value?.clubName)
             setIsInitialSetting(isInitialSetting = true)
         }
-        setDownloadInfo()
+        setDownloadUrlInfo()
+        setAppDataUpdateInfo()
         navigateToDownload()
     }
 
-    fun setDownloadInfo() = viewModelScope.launch {
+    private fun setDownloadUrlInfo() = viewModelScope.launch {
         val mainUrl = urlInfoFetchedList.value?.find { it.clubIndex == selectedClubInfo.value?.clubIndex }
         preferenceRepository.setDownloadMainUrl(downloadMainUrl = mainUrl?.downloadUrl)
+    }
+
+    private fun setAppDataUpdateInfo() = viewModelScope.launch {
+        val updateInfo = appdataUpdateInfoList.value?.find { it.clubIndex == selectedClubInfo.value?.clubIndex }
+        preferenceRepository.setAppDataUpdateList(updateInfo?.downloadFileList)
     }
 
     private fun navigateToDownload() {
