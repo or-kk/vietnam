@@ -6,6 +6,16 @@ class FileUtils {
 
     companion object {
 
+        fun splitAppVersion(version: String): List<String> {
+            val versionList: MutableList<String> = arrayListOf()
+            val splitVersion = version.split("|")
+            for(item in splitVersion) {
+                versionList.add(item)
+            }
+
+            return versionList.toList()
+        }
+
         fun removeFileExtension(file: File): File {
             val fileName = file.name
             val newFileName = if (fileName.contains('.')) {
