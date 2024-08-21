@@ -32,7 +32,7 @@ open class PreferenceRepositoryImpl @Inject constructor(
     }
 
     override val latestAppDataVersion: Flow<String>
-        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_LATEST_APP_DATA_VERSION] ?: "" }
+        get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_LATEST_APP_DATA_VERSION] ?: "none" }
 
     override suspend fun setLatestAppDataVersion(version: String) {
         prefDatastore.edit { it[PREFERENCES_KEY_OF_LATEST_APP_DATA_VERSION] = version}
@@ -56,13 +56,11 @@ open class PreferenceRepositoryImpl @Inject constructor(
         }
     }
 
-    override val downloadMainUrl: Flow<String?>
+    override val downloadMainUrl: Flow<String>
         get() = prefDatastore.data.map { it[PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL] ?: "" }
 
-    override suspend fun setDownloadMainUrl(downloadMainUrl: String?) {
-        if (downloadMainUrl != null) {
-            prefDatastore.edit { it[PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL] = downloadMainUrl }
-        }
+    override suspend fun setDownloadMainUrl(downloadMainUrl: String) {
+        prefDatastore.edit { it[PREFERENCES_KEY_OF_DOWNLOAD_MAIN_URL] = downloadMainUrl }
     }
 
     override val savedId: Flow<String?>
