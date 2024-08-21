@@ -98,11 +98,13 @@ class FileRepositoryImpl(
                             while (zipInputStream.read(buffer).also { length = it } > 0) {
                                 fileOutputStream.write(buffer, 0, length)
                                 unzippedSize += length
-                                progressCallback(unzippedSize / totalSize * 100)
+                                progressCallback((unzippedSize / totalSize * 100).coerceAtMost(100f))
                             }
                         }
                     }
                 }
+
+                progressCallback(100f)
             }
 
             if (zipFile.delete()) {
