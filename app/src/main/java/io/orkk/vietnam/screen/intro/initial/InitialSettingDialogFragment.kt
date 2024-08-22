@@ -52,7 +52,7 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
 
     override fun onResume() {
         super.onResume()
-        context?.adjustDialogFragment(this@InitialSettingDialogFragment, 0.8f, 0.45f)
+        context?.adjustDialogFragment(this@InitialSettingDialogFragment, ADJUST_SCREEN_WIDTH, ADJUST_SCREEN_HEIGHT)
         isCancelable = false
     }
 
@@ -100,7 +100,7 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
 
                 appdataUpdateInfoList.observe(viewLifecycleOwner, Observer { configList ->
                     configList.forEach {
-                        Timber.d("appdata download info list : ${it.clubIndex} downloadlist : ${it.downloadFileList}")
+                        Timber.d("appdata download info list : ${it.clubIndex} download list : ${it.downloadFileList}")
                     }
                 })
 
@@ -116,5 +116,10 @@ class InitialSettingDialogFragment() : BaseDialogFragment<DialogInitialSettingBi
                 findNavController().safeNavigate(InitialSettingDialogFragmentDirections.actionInitialSettingDialogFragmentToDownloadDialogFragment())
             }
         })
+    }
+
+    companion object {
+        const val ADJUST_SCREEN_WIDTH = 0.8f
+        const val ADJUST_SCREEN_HEIGHT = 0.45f
     }
 }

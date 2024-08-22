@@ -135,7 +135,7 @@ class InitialSettingViewModel @Inject constructor(
 
     private fun setDownloadUrlInfo() = viewModelScope.launch {
         val mainUrl = urlInfoFetchedList.value?.find { it.clubIndex == selectedClubInfo.value?.clubIndex }
-        preferenceRepository.setDownloadMainUrl(downloadMainUrl = mainUrl?.downloadUrl)
+        preferenceRepository.setDownloadMainUrl(downloadMainUrl = mainUrl!!.downloadUrl)
     }
 
     private fun setAppDataUpdateInfo() = viewModelScope.launch {
