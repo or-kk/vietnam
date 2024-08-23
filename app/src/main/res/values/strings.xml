@@ -30,7 +30,7 @@
     <string name="unzip_all_app_data">Unzip all app data.</string>
     <string name="unzip_all_app_data_fail_message">Failed to unzip all app data. Please re-run the app.</string>
     <string name="download_changed_app_data">Download changed app data.</string>
-    <string name="download_changed_app_data_fail_message">Failed to download all app data. Please re-run the app.</string>
+    <string name="download_changed_app_data_fail_message">Failed to download changed app data. Please re-run the app.</string>
     <string name="unzip_changed_app_data">Unzip changed app data.</string>
     <string name="unzip_changed_app_data_fail_message">Failed to unzip changed app data. Please re-run the app.</string>
 
